@@ -1,0 +1,8 @@
+# .htaccess
+RewriteEngine On
+RewriteBase /Scraper/
+
+# If the requested file or folder doesn't exist, send the request to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ Backend/router.php [QSA,L]
