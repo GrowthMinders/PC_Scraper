@@ -3,7 +3,8 @@ var btn = document.getElementById("reg_btn");
 var fname = document.getElementById("fname");
 var lname = document.getElementById("lname");
 var email = document.getElementById("email");       
-var uname = document.getElementById("uname");            
+var uname = document.getElementById("uname");    
+var tel = document.getElementById("tel");        
 var pass = document.getElementById("pass");
 var cpass = document.getElementById("cpass");
 
@@ -11,6 +12,12 @@ const regexnames = /^[A-Za-z\s]{3,50}$/;
 const regexuname = /^[A-Za-z0-9_-]{3,50}$/;
 const regexmail = /^[A-Za-z\d]{4,40}(@)(outlook\.com|yahoo\.com|gmail\.com)$/;
 const regexpass = /^[A-Za-z\d!~`#$%^&*-_+=<>,.|@]{8,30}$/;
+
+//Telephone Number Validations
+const regextel = /^(\+94)(70|71|72|73|74|75|76|77|78)([0-9]{7})$/;
+const regextel1 = /^(\+94)(777)([0-9]{6})$/;
+const regextel2 = /^(070|071|072|073|074|075|076|077|078)([0-9]{7})$/;
+const regextel3 = /^(0777)([0-9]{6})$/;
 
 btn.addEventListener("click", function(){
   if(fname.value === ""){
@@ -56,6 +63,13 @@ btn.addEventListener("click", function(){
           icon: "error",
         });
   }
+  else if(pass.value != cpass.value){
+        Swal.fire({
+          title: "Ooops!",
+          text: "Passwords do not match",
+          icon: "error",
+        });
+  }
 
   else if(!regexnames.test(fname.value)){
         Swal.fire({
@@ -87,26 +101,60 @@ btn.addEventListener("click", function(){
           text: "Invalid username(Max 50 Characters[-, _, 0-9, A-Z, a-z allowed])",
           icon: "error",
         });
-  }else{  
+  }else if(!regextel.test(tel.value) && !regextel1.test(tel.value) && !regextel2.test(tel.value) && !regextel3.test(tel.value)){
+        Swal.fire({
+          title: "Ooops!",
+          text: "Invalid contact number",
+          icon: "error",
+        });
+  }
+  
+  else{  
       var request = new XMLHttpRequest();
        request.open("POST" , "api/register");
        request.onload = function(){
          if(request.status === 200){
-            Swal.fire({
-             title: "Success!",
-             text: "Registration successful " +uname.value+ "!",
-             icon: "success",
-            });
             lname.value = "";
             fname.value = "";
             email.value = "";
             pass.value = "";
             cpass.value = "";
             uname.value = ""; 
+            tel.value = "";
+
+         Swal.fire({
+            title: "Success!",
+            text: "Registration successful " + uname.value + "!",
+            icon: "success",
+            confirmButtonText: "OK" 
+         }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = "http://127.0.0.1/Scraper/Frontend/HTML/login.html";
+            }
+         });
+
          }else if(request.status === 500){
             Swal.fire({
              title: "Ooops!",
              text: "Plaese check your middleware once again",
+             icon: "error",
+            });
+         }else if(request.status === 401){
+            Swal.fire({
+             title: "Ooops!",
+             text: "Email already exists",
+             icon: "error",
+            });
+         }else if(request.status === 403){
+            Swal.fire({
+             title: "Ooops!",
+             text: "Username already exists",
+             icon: "error",
+            });
+         }else if(request.status === 402){
+            Swal.fire({
+             title: "Ooops!",
+             text: "Contact number already exists",
              icon: "error",
             });
          }else{
@@ -117,7 +165,7 @@ btn.addEventListener("click", function(){
             });
          }
        };
-       var params = {fname:fname.value, email:email.value, pass:pass.value, lname:lname.value, uname:uname.value};
+       var params = {fname:fname.value, email:email.value, pass:pass.value, lname:lname.value, uname:uname.value, tel:tel.value};
        var jsonparams = JSON.stringify(params);
        request.send(jsonparams);
    

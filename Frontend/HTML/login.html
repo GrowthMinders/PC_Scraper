@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" type="image/x-icon" href="../ASSETS/favicon.ico">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>PC Sraper</title>
 </head>
@@ -10,9 +11,13 @@
    <div>
      <input type="text" id="uname" placeholder="Username">
      <input type="password" id="pass" placeholder="Password">
+     <a id="fpass">Forgot Password?</a>
      <button id="log_btn">Login</button>
    </div>
 
     <script src="../API/authentication/login.js"></script>
+    <script src="../API/authentication/otp_sms.js"></script>
+    <script src="../API/authentication/otp_whatsapp.js"></script>
+    <script src="../API/authentication/otp_email.js"></script>
 </body>
 </html>

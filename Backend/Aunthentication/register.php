@@ -15,8 +15,11 @@ header("Access-Control-Allow-Credentials: true");
   $uname = $data['uname'];
   $pass =  $data['pass'];
   $lname = $data['lname'];
+  $tel = $data['tel'];
 
   $femail = "";
+  $funame = "";
+  $ftel = "";
 
   $sql = "SELECT email FROM users WHERE email = '$email' ";
 
@@ -26,9 +29,37 @@ header("Access-Control-Allow-Credentials: true");
     $femail = $row['email'];
   }
 
- if($femail === ""){
+
+  $sql2 = "SELECT uname FROM users WHERE uname = '$uname' ";
+
+  $query2 = mysqli_query($conn, $sql2);
+
+  while($row2 = mysqli_fetch_assoc($query2)){
+    $funame = $row2['uname'];
+  }
+
+  $sql3 = "SELECT telephone FROM users WHERE telephone = '$tel' ";
+
+  $query3 = mysqli_query($conn, $sql3);
+
+  while($row3 = mysqli_fetch_assoc($query3)){
+    $ftel = $row3['telephone'];
+  }
+
+
+  if($funame != ""){
+    http_response_code(403);
+  }
+
+  if($ftel != ""){
+    http_response_code(402);
+  }
+
+
+
+ if($femail === "" && $funame === ""){
     $hashpass = password_hash($pass, PASSWORD_BCRYPT);
-    $sql1 = "INSERT INTO users (fname, lname, email, pass, uname) VALUES ('$fname', '$lname', '$email', '$hashpass', '$uname')";
+    $sql1 = "INSERT INTO users (fname, lname, email, pass, uname, telephone) VALUES ('$fname', '$lname', '$email', '$hashpass', '$uname', '$tel')";
 
     $query1 = mysqli_query($conn, $sql1);
 
