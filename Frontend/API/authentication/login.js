@@ -24,8 +24,7 @@ btn.addEventListener("click", function () {
     logreq.open("POST", "api/login");
     logreq.onload = function () {
       if (logreq.status == 200) {
-          sessionStorage.setItem("uname", uname.value);
-          
+        
       Swal.fire({
         title: 'Select OTP Mode',
         input: 'select',

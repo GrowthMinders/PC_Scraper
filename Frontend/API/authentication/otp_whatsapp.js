@@ -59,8 +59,14 @@ function OTPwhat(){
                                    confirmButtonText: "OK" 
                                  }).then((result) => {
                                      if (result.isConfirmed) {
+                                        //JWT Token
+                                        var session = JSON.parse(logreq.responseText); 
+                                        sessionStorage.setItem("loged", session.token);
                                         window.location.href = "http://localhost/Scraper/index.html";
                                      }else{
+                                        //JWT Token
+                                        var session = JSON.parse(logreq.responseText); 
+                                        sessionStorage.setItem("loged", session.token);
                                         window.location.href = "http://localhost/Scraper/index.html";
                                      }
                                  });

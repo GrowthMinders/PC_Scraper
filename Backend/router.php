@@ -47,7 +47,12 @@
 
         case '/Scraper/Frontend/HTML/api/password_reset' :
            require $BASE_URL.'Aunthentication\\auth_checkers\\pass_reset.php'; //Password Reseting Script
-           break;    
+           break;
+        
+        //Session Checker
+        case '/Scraper/api/session_verify' :
+           require $BASE_URL.'Aunthentication\\auth_checkers\\authenticate.php'; //Checking Session Legidimity 
+           break;   
 
         default:
            http_response_code(500);

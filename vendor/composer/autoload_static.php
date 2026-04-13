@@ -35,6 +35,10 @@ class ComposerStaticIniteb9a590a8b775b5d66d81bf34c5dccb6
         array (
             'Http\\Discovery\\' => 15,
         ),
+        'F' =>
+        array (
+            'Firebase\\JWT\\' => 13,
+        ),
         'A' =>
         array (
             'AndroidSmsGateway\\' => 18,
@@ -86,6 +90,10 @@ class ComposerStaticIniteb9a590a8b775b5d66d81bf34c5dccb6
         'Http\\Discovery\\' =>
         array (
             0 => __DIR__ . '/..' . '/php-http/discovery/src',
+        ),
+        'Firebase\\JWT\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
         'AndroidSmsGateway\\' =>
         array (

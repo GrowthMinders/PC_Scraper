@@ -59,11 +59,15 @@ function OTPmail(){
                                    confirmButtonText: "OK" 
                                  }).then((result) => {
                                      if (result.isConfirmed) {
-                                        console.log(logreq.responseText);
-                                        //window.location.href = "http://localhost/Scraper/index.html";
+                                        //JWT Token
+                                        var session = JSON.parse(logreq.responseText); 
+                                        sessionStorage.setItem("loged", session.token);
+                                        window.location.href = "http://localhost/Scraper/index.html";
                                      }else{
-                                      console.log(logreq.responseText);
-                                        //window.location.href = "http://localhost/Scraper/index.html";
+                                        //JWT Token
+                                        var session = JSON.parse(logreq.responseText); 
+                                        sessionStorage.setItem("loged", session.token);
+                                        window.location.href = "http://localhost/Scraper/index.html";
                                      }
                                  });
 
