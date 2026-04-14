@@ -4,11 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="./Frontend/ASSETS/favicon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="Frontend/STYLES/main.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="Frontend/API/authentication/session.js"></script>
+   <!-- <script src="Frontend/API/authentication/session.js"></script> -->
     <title>PC Scraper</title> 
 </head>
 <body>
-   <p>Welcome Now the Authentication System is done</p>
+
+  <div class="container-fluid d-flex" id="health_banner">
+    <h4>System Health Score:  82% (Good)</h4>
+    <h4>Last Scan: 13/04/2026</h4>
+  </div>  
+
+  <div class="container-fluid d-flex" id="section1">
+    <!-- First Div -->
+    <div id="profiler">
+      <h4 id="card_headers">Hardware Information</h4>
+      <center>
+        <img src="Frontend/ASSETS/Logo.png" id="brand_logo">
+        <img src="Frontend/ASSETS/Sri_Dedunu_Tech_Solutions.png" id="brand_logo1">
+      </center>
+       <span id="cpu_name"></span><br>
+       <span id="ram"></span><br>
+       <span id="external_gpu"></span><br>
+       <span id="internal_gpu"></span>
+
+    </div>
+
+    <!-- Second Div -->
+    <div id="network_pinger">
+      <h4 id="card_headers">Operating System Information</h4>
+        <span id="device_name"></span><br>
+        <span id="windows_version"></span><br>
+        <span id="build_version"></span><br>
+        <span id="last_up"></span><br>
+        <span id="license_pro"></span><br>
+        <span id="activation"></span><br>
+
+    </div>
+  </div>
+
+
+  <div class="container-fluid" id="network">frrfr</div>
+  <div class="container-fluid" id="recomendation">rfr</div>
+  <div class="container-fluid" id="backup">rfrf</div>
+
+  <script src="Frontend/API/data_handling/Index/hardware_stats.js"></script>
+  <script src="Frontend/API/data_handling/Index/operating_system.js"></script>
 </body>
 </html>

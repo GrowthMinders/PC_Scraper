@@ -52,7 +52,17 @@
         //Session Checker
         case '/Scraper/api/session_verify' :
            require $BASE_URL.'Aunthentication\\auth_checkers\\authenticate.php'; //Checking Session Legidimity 
-           break;   
+           break;
+           
+        //Getting Hardware Details 
+        case '/Scraper/api/hard_names' :
+           require $BASE_URL.'Data_Handlers\\Index\\Hardware_stats.php'; //To Display On The small 1 Banner [Section 1] 
+           break; 
+         
+        //Getting Operating System Details     
+        case '/Scraper/api/operating' :
+           require $BASE_URL.'Data_Handlers\\Index\\Operating.php'; //To Display On The small 2 Banner [Section 1]
+           break;  
 
         default:
            http_response_code(500);
