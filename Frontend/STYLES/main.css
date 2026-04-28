@@ -5,15 +5,28 @@
 }
 
 /*Main div Stylling*/
-#profiler{
-   height: 38vh;
+#profiler,
+#os-detailer,
+#pinger{
+   height: 42vh;
    border:gray solid 1px;
    width: 33vw;
    border-radius: 6px; 
 }
 
+#section2{
+   border:gray solid 1px;
+   border-radius: 6px;
+   width: 98vw;
+   margin-left: 1.3vw;
+   height: 36vh;
+   margin-top: 1.3vh;
+}
+
 /*Script Loaded Data Style*/
-#profiler, span{
+#profiler, span,
+#os-detailer, span,
+#pinger, span{
    margin-left: 12px;
 }
 
@@ -29,31 +42,11 @@
 }
 
 /*PC Scraper Logo*/
-#brand_logo{
-   height: 20vh;
-   width: 10vw;
-   object-fit: cover; 
+#win_logo,
+#brand-logo,
+#isp_logo{
+   height: 19vh;
+   width: 12vw;
+   object-fit: cover;
    margin-bottom: 8px;
-}
-
-/*Sri Dedunu tech Solutions Logo*/
-#brand_logo1{
-   height: 14vh;
-   width: 10vw;
-   object-position: center;
-   object-fit:inherit;
-}
-
-/* ################################################################### */
-
-#network_pinger{
-   height: 38vh;
-   border:gray solid 1px;
-   width: 33vw;
-   border-radius: 6px; 
-}
-
-/*Script Loaded Data Style*/
-#network_pinger, span{
-   margin-left: 12px;
 }

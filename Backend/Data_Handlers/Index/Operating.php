@@ -66,8 +66,9 @@ try {
     }
 
     if ($i > 0) {
-       http_response_code(200);
        echo json_encode($soft);
+       http_response_code(200);
+       exit;
     } else {
        http_response_code(400);
     }

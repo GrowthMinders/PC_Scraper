@@ -110,11 +110,12 @@ try {
     } 
 
     if($i > 0){
-      http_response_code(200);
       echo json_encode([
         "hardware" => $hardware_names,
         "storage"  => $storage
-      ]);  
+      ]);
+      http_response_code(200);
+      exit;  
     }else{
       http_response_code(400);
     }

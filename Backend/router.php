@@ -62,10 +62,38 @@
         //Getting Operating System Details     
         case '/Scraper/api/operating' :
            require $BASE_URL.'Data_Handlers\\Index\\Operating.php'; //To Display On The small 2 Banner [Section 1]
-           break;  
+           break;
+           
+        //Getting Network Details     
+        case '/Scraper/api/networker' :
+           require $BASE_URL.'Data_Handlers\\Index\\Netwok.php'; //To Display On The small 3 Banner [Section 1]
+           break;
+
+        //Getting Live Perfomance Data Of Hardware [Section 2]  
+        case '/Scraper/api/cpu_live_charts' :
+           require $BASE_URL.'Data_Handlers\\Index\\Live\\cpu.php'; //To Display Live Stats Of The Proccessor  
+           break;
+
+        case '/Scraper/api/ram_live_charts' :
+           require $BASE_URL.'Data_Handlers\\Index\\Live\\ram.php'; //To Display Live Stats Of RAM
+           break;
+           
+        case '/Scraper/api/gpu_live_charts' :
+           require $BASE_URL.'Data_Handlers\\Index\\Live\\gpu.php'; //To Display Live Stats Of GPU
+           break;
+
+        case '/Scraper/api/net_live_charts' :
+           require $BASE_URL.'Data_Handlers\\Index\\Live\\network.php'; //To Display Live Stats Of Network
+           break;
+
+         //Only Testing GPU Loads
+        case '/Scraper/api/gpu_live_chart' :
+           require $BASE_URL.'Data_Handlers\\Index\\Live\\test.php'; //To Display Live Stats Of GPU
+           break;
 
         default:
            http_response_code(500);
         break;
     }
 ?>
+// 

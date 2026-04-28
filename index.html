@@ -8,7 +8,10 @@
     <link href="Frontend/STYLES/main.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   <!-- <script src="Frontend/API/authentication/session.js"></script> -->
+    <!-- Including Chart.js-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Session Authenticity Testing Script -->
+    <!-- <script src="Frontend/API/authentication/session.js"></script> -->
     <title>PC Scraper</title> 
 </head>
 <body>
@@ -18,13 +21,13 @@
     <h4>Last Scan: 13/04/2026</h4>
   </div>  
 
+  <!-- Basic Information Section -->
   <div class="container-fluid d-flex" id="section1">
     <!-- First Div -->
     <div id="profiler">
       <h4 id="card_headers">Hardware Information</h4>
       <center>
-        <img src="Frontend/ASSETS/Logo.png" id="brand_logo">
-        <img src="Frontend/ASSETS/Sri_Dedunu_Tech_Solutions.png" id="brand_logo1">
+        <img src="Frontend/ASSETS/Logo.png" id="brand-logo"  class="img-thumbnail">
       </center>
        <span id="cpu_name"></span><br>
        <span id="ram"></span><br>
@@ -34,24 +37,74 @@
     </div>
 
     <!-- Second Div -->
-    <div id="network_pinger">
+    <div id="os-detailer">
       <h4 id="card_headers">Operating System Information</h4>
+      <center>
+        <img src="" id="win_logo" class="img-fluid img-thumbnail"><br>
+      </center>  
         <span id="device_name"></span><br>
         <span id="windows_version"></span><br>
         <span id="build_version"></span><br>
         <span id="last_up"></span><br>
         <span id="license_pro"></span><br>
         <span id="activation"></span><br>
+    </div>
 
+    <!-- Third Div -->
+    <div id="pinger">
+      <h4 id="card_headers">Network Information</h4>
+        <center>
+          <img src="" id="isp_logo" class="img-fluid img-thumbnail"><br>
+        </center>
+      <!--  <span id="latency"></span><br>
+        <span id="jitter"></span><br>
+        <span id="loss"></span><br> -->
+        <span id="mac"></span><br>    
+        <span id="mtu"></span><br>
+        <span id="ip"></span><br>
+        <span id="mask"></span><br>
+        <span id="gate"></span><br>
+        <span id="provide"></span>
     </div>
   </div>
 
+  <!-- Live Metrics For CPU, RAM, Network -->
 
-  <div class="container-fluid" id="network">frrfr</div>
+    <div class="container-fluid d-flex" id="section2">
+      <div id="cpu_info">
+        <span id="cpu_use"></span><br>
+        <span id="cpu_tre"></span><br>
+        <span id="cpu_core"></span><br>
+        <span id="cpu_up"></span><br>
+      </div>
+
+      <div id="ram_info">
+        <span id="ram_use"></span><br>
+        <span id="free_ram"></span><br>
+        <span id="form"></span><br>
+        <span id="slot"></span>
+      </div>
+
+      <div id="net_info">
+        <span id="adapter"></span><br>
+        <span id="band"></span><br>
+        <span id="up"></span><br>
+        <span id="down"></span><br>
+      </div>
+
+    </div>
+
   <div class="container-fluid" id="recomendation">rfr</div>
   <div class="container-fluid" id="backup">rfrf</div>
 
   <script src="Frontend/API/data_handling/Index/hardware_stats.js"></script>
   <script src="Frontend/API/data_handling/Index/operating_system.js"></script>
+  <script src="Frontend/API/data_handling/Index/networker.js"></script>
+
+  <!-- Live Monitoring Scripts -->
+  <script src="Frontend/API/data_handling/Index/Live/network.js"></script>
+  <script src="Frontend/API/data_handling/Index/Live/cpu.js"></script>
+  <script src="Frontend/API/data_handling/Index/Live/gpu.js"></script>
+  <script src="Frontend/API/data_handling/Index/Live/ram.js"></script>
 </body>
 </html>

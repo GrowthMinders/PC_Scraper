@@ -1,21 +1,47 @@
 function main_load (){
-  var cpu = document.getElementById("cpu_name");
-  var in_gpu = document.getElementById("internal_gpu");
-  var ext_gpu = document.getElementById("external_gpu");
-  var ram = document.getElementById("ram");
+  var latency = document.getElementById("latency");
+  var jitter = document.getElementById("jitter");
+  var packet_loss = document.getElementById("loss");
+  var IP = document.getElementById("ip");
+  var subnetmask = document.getElementById("mask");
+  var gateway = document.getElementById("gate");
+  var provider = document.getElementById("provide");
+  var mac = document.getElementById("mac");
+  var mtu = document.getElementById("mtu");
 
-  // Checking Whether Any Hardware Has Changed Since After Last Boot
-  var hardware_fetch = new XMLHttpRequest();
-  hardware_fetch.open("POST", "api/networker");
-  hardware_fetch.setRequestHeader("Content-Type", "application/json");
-  hardware_fetch.onload = function () {
-    if(hardware_fetch.status == 200){
-      var data = JSON.parse(hardware_fetch.responseText);
+  var img_isp = document.getElementById("isp_logo");
+
+  // Checking Fro Network Functionality Time By Time
+  var network_fetch = new XMLHttpRequest();
+  network_fetch.open("POST", "api/networker");
+  network_fetch.setRequestHeader("Content-Type", "application/json");
+  network_fetch.onload = function () {
+    if(network_fetch.status == 200){
+      var data = JSON.parse(network_fetch.responseText);
+
+      var instance = data[0];
       
-      cpu.innerHTML = `<strong>CPU: </strong>` + data[0];
-      ram.innerHTML = `<strong>RAM: </strong>` + data[3];
-      ext_gpu.innerHTML = `<strong>External GPU: </strong>` + data[1];
-      in_gpu.innerHTML = `<strong>Internal GPU: </strong>` + data[2];
+      provider.innerHTML = `<strong>ISP(Internet Service Provider) : </strong>` + instance.isp;
+      mtu.innerHTML = `<strong>MTU(Maximum Transmission Unit) : </strong>` + instance.mtu;
+      mac.innerHTML = `<strong>MAC Address : </strong>` + instance.mac; 
+      gateway.innerHTML = `<strong>Default Gateway : </strong>` + instance.gateway;
+      subnetmask.innerHTML = `<strong>Subnet Mask : </strong>` + instance.subnet;
+      IP.innerHTML = `<strong>IP Address : </strong>` + instance.ip;
+
+      if(instance.isp === "Dialog Axiata PLC."){
+        img_isp.src = "http://localhost/Scraper/Frontend/ASSETS/ISP/Dialog.png"; 
+      }else if(instance.isp === "Sri Lanka Telecom Internet"){
+        img_isp.src = "http://localhost/Scraper/Frontend/ASSETS/ISP/Telecom.png";   
+      }else if(instance.isp === "Mobitel Pvt Ltd"){
+        img_isp.src = "http://localhost/Scraper/Frontend/ASSETS/ISP/Mobitel.webp";     
+      }else if(instance.isp === "BHARTI Airtel Ltd."){
+        img_isp.src = "http://localhost/Scraper/Frontend/ASSETS/ISP/Airtel.png";
+      }else if(instance.isp === "234, Galle Road, Colombo 4"){
+        img_isp.src = "http://localhost/Scraper/Frontend/ASSETS/ISP/Hutch.png";
+        provider.innerHTML = `<strong>ISP(Internet Service Provider) : </strong>` + "Hutchison Telecommunications Lanka (Private) Limited";
+      }else{
+        img_isp.src = "http://localhost/Scraper/Frontend/ASSETS/ISP/StarLink.png";
+      }
 
 
     }else{
@@ -26,7 +52,7 @@ function main_load (){
       });
     }
   };
-  hardware_fetch.send();
+  network_fetch.send();
 }
 main_load();
 
