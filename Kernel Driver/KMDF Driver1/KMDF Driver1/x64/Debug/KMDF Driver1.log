@@ -1,0 +1,20 @@
+﻿  Building 'KMDF Driver1' with toolset 'WindowsKernelModeDriver10.0' and the 'Desktop' target platform.
+  Stamping x64\Debug\KMDFDriver1.inf
+  Stamping [Version] section with DriverVer=04/28/2026,11.49.3.623
+  main.c
+  KMDF Driver1.vcxproj -> C:\Users\Supun\Desktop\Kernel Driver\KMDF Driver1\x64\Debug\KMDFDriver1.sys
+  ........................
+  Signability test complete.
+  
+  Errors:
+  None
+  
+  Warnings:
+  None
+  
+  Catalog generation complete.
+  C:\Users\Supun\Desktop\Kernel Driver\KMDF Driver1\x64\Debug\KMDF Driver1\kmdfdriver1.cat
+  Set catalog attribute.
+  WdkVersion: 10.0.26100.0
+  Set catalog attribute.
+  WdkAssemblyVersion: 10.0.26100.6584
