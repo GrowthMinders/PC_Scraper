@@ -69,27 +69,15 @@
            require $BASE_URL.'Data_Handlers\\Index\\Netwok.php'; //To Display On The small 3 Banner [Section 1]
            break;
 
-        //Getting Live Perfomance Data Of Hardware [Section 2]  
-        case '/Scraper/api/cpu_live_charts' :
-           require $BASE_URL.'Data_Handlers\\Index\\Live\\cpu.php'; //To Display Live Stats Of The Proccessor  
+        //Getting All Data Of Live Matrix Analyzer [Section 2]  
+        case '/Scraper/api/hard_stat' :
+           require $BASE_URL.'Data_Handlers\\Index\\Static_Metrics.php'; //Getting The Static Data About The Hardware 
            break;
 
-        case '/Scraper/api/ram_live_charts' :
-           require $BASE_URL.'Data_Handlers\\Index\\Live\\ram.php'; //To Display Live Stats Of RAM
+        case '/Scraper/api/hard_dyna' :
+           require $BASE_URL.'Data_Handlers\\Index\\Dynamic_Metrics.php'; //Getting The Dynamic Data About The Hardware
            break;
-           
-        case '/Scraper/api/gpu_live_charts' :
-           require $BASE_URL.'Data_Handlers\\Index\\Live\\gpu.php'; //To Display Live Stats Of GPU
-           break;
-
-        case '/Scraper/api/net_live_charts' :
-           require $BASE_URL.'Data_Handlers\\Index\\Live\\network.php'; //To Display Live Stats Of Network
-           break;
-
-         //Only Testing GPU Loads
-        case '/Scraper/api/gpu_live_chart' :
-           require $BASE_URL.'Data_Handlers\\Index\\Live\\test.php'; //To Display Live Stats Of GPU
-           break;
+         
 
         default:
            http_response_code(500);
