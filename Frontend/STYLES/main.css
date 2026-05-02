@@ -17,7 +17,7 @@
 #section2{
    border:gray solid 1px;
    border-radius: 6px;
-   width: 98vw;
+   width: 98.5vw;
    margin-left: 1vw;
    height: 36vh;
    margin-top: 1.3vh;
@@ -49,4 +49,44 @@
    width: 12vw;
    object-fit: cover;
    margin-bottom: 8px;
+}
+
+/* Chart Styles */
+.chart{
+   width: 18vw; 
+   height: 20vh;
+   padding: 10px;
+   font-weight: bold;
+}
+
+.detailers{
+   margin-left: 2vw;
+   margin-top: 0.4vh;
+}
+
+.info_block{
+   padding: 10px;
+   margin-right:1vw;
+}
+
+#sub-head-section2{
+   border: gray solid 2px;
+   border-top-left-radius: 8px;
+   border-bottom-right-radius: 8px;
+   width: fit-content;
+   padding: 8px 12px;
+   color: rgb(0, 85, 0);
+}
+
+/* Footer */
+#brand {
+   margin-left: 24px;
+   position: fixed;
+   bottom: 4vh;
+   left: 0;           
+   width: 100%;      
+   background-color: white;
+   z-index: 1000; 
+   font-size: 25px;
+   font-weight: bold;
 }

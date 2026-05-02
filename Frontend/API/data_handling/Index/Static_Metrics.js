@@ -68,23 +68,32 @@ function gpu_data() {
 
             var gpuList = data[0];
 
-            var main_div = document.getElementById("section2-data-loader");
+            var main_div = document.getElementById("live_spec_main");
 
             for (var i = 0; i < gpuList.length; i++) {
                 var currentGPU = gpuList[i];
 
                 var gpu_div = document.createElement("div");
 
-                gpu_div.className = `${currentGPU.name}`; 
+                gpu_div.id = `${currentGPU.name}`;
+                gpu_div.className = `info_block`; 
 
+                //Chart Creation
                 gpu_div.innerHTML = `
-                    <span class="gpu-name"><strong>GPU ${i} Name: </strong>${currentGPU.name}</span><br>
-                    <span class="gpu-load">  </span><br>
-                    <span class="gpu-driver"><strong>Driver Version: </strong>Driver: ${currentGPU.driver}</span><br>
-                    <span class="gpu-direct"><strong>DirectX: </strong>${currentGPU.directx}</span><br>
+                   <center><h6 id="sub-head-section2">Graphic Processing Unit ${i+1}</h6></center> 
+                   <div id="chart${i+4}" class="chart">
+                      <canvas id="gpuLoad${i+1}"></canvas>
+                   </div>
+                   <div id="gpu${i+4}" class="detailers">
+                      <span id="gpu-name"><strong>GPU ${i+1} Name: </strong>${currentGPU.name}</span><br>
+                      <span id="gpu-load${i+1}">  </span><br>
+                      <span id="gpu-driver"><strong>Driver Version: </strong>Driver: ${currentGPU.driver}</span><br>
+                      <span id="gpu-direct"><strong>DirectX: </strong>${currentGPU.directx}</span><br>
+                   </div>
                 `;
 
                 main_div.appendChild(gpu_div);
+
             }
         }
     };

@@ -19,6 +19,7 @@
   <div class="container-fluid d-flex" id="health_banner">
     <h4>System Health Score:  82% (Good)</h4>
     <h4>Last Scan: 13/04/2026</h4>
+  
   </div>  
 
   <!-- Basic Information Section -->
@@ -69,47 +70,76 @@
   </div>
 
   <!-- Live Metrics For CPU, RAM, Network -->
+  <div id="section2">
+    <div>
+      <h4 id="card_headers">Live Metrics Analyzer</h4>
+    </div><br>
 
-    <div id="section2">
-      <div>
-        <h4 id="card_headers">Live Metrics Analyzer</h4>
-      </div><br>
-    <div class="container-fluid d-flex" id="section2-data-loader">
-      <div id="cpu_info">
-        <span id="cpu_use"></span><br>
-        <span id="cpu_tre"></span><br>
-        <span id="cpu_core"></span><br>
-        <span id="cpu_up"></span><br>
+    <!-- Live Hardware Data Container --> 
+    <center><div class="d-flex justify-content-center" id="live_spec_main">
+      <!-- CPU Live Data --> 
+      <div id="cpu" class="info_block">
+        <center><h6 id="sub-head-section2">Central Processing Unit</h6></center>
+        <div id="chart1" class="chart">
+          <canvas id="cpuLoad"></canvas>
+        </div>
+
+        <div id="cpu_info" class="detailers">
+          <span id="cpu_use"></span><br>
+          <span id="cpu_tre"></span><br>
+          <span id="cpu_core"></span><br>
+          <span id="cpu_up"></span><br>
+        </div>
       </div>
 
-      <div id="ram_info">
-        <span id="ram_use"></span><br>
-        <span id="free_ram"></span><br>
-        <span id="form"></span><br>
-        <span id="slot"></span>
-      </div>
+     <!-- RAM Live Data --> 
+     <div id="ram" class="info_block">
+       <center><h6 id="sub-head-section2">Random Access Memory</h6></center>
+       <div id="chart2" class="chart">
+         <canvas id="ramLoad"></canvas>
+       </div>
 
-      <div id="net_info">
-        <span id="adapter"></span><br>
-        <span id="band"></span><br>
-        <span id="up"></span><br>
-        <span id="down"></span><br>
-      </div>
-    </div>  
+       <div id="ram_info" class="detailers">
+         <span id="ram_use"></span><br>
+         <span id="free_ram"></span><br>
+         <span id="form"></span><br>
+         <span id="slot"></span>
+       </div>
+     </div>
 
-    </div>
+     <!-- Network Live Data --> 
+     <div id="networks" class="info_block">
+       <center><h6 id="sub-head-section2">Bandwidth</h6></center> 
+       <div id="chart3" class="chart">
+         <canvas id="networkLoad"></canvas>
+       </div>
 
-  <div class="container-fluid" id="recomendation">rfr</div>
-  <div class="container-fluid" id="backup">rfrf</div>
+       <div id="net_info" class="detailers">
+         <span id="adapter"></span><br>
+         <span id="band"></span><br>
+         <span id="up"></span><br>
+         <span id="down"></span><br>
+       </div>
+     </div></center>
 
+    <!-- GPU Live Data Dynamically Rendering --> 
+
+    </div> 
+  </div>
+
+  <div id="brand">
+    <center><img src="Frontend/ASSETS/Sri_Dedunu_Tech_Solutions.png" id="company" style="margin-right: 4vw;"><span id="copy">&copy;ALL RIGHTS RESERVED BY SRI DEDUNU TECH SOLUTIONS</span></center>
+  </div>
+  
+  <!-- Top Most Detail Loaders -->
   <script src="Frontend/API/data_handling/Index/hardware_stats.js"></script>
   <script src="Frontend/API/data_handling/Index/operating_system.js"></script>
   <script src="Frontend/API/data_handling/Index/networker.js"></script>
 
-  <!-- Live Monitoring Scripts -->
-  <script src="Frontend/API/data_handling/Index/Live/network.js"></script>
-  <script src="Frontend/API/data_handling/Index/Live/cpu.js"></script>
-  <script src="Frontend/API/data_handling/Index/Live/gpu.js"></script>
-  <script src="Frontend/API/data_handling/Index/Live/ram.js"></script>
+  <!-- Live Metrics -->
+  <script src="Frontend/API/data_handling/Index/Static_Metrics.js"></script>
+  <script src="Frontend/API/data_handling/Index/Dynamic_Metrics.js"></script>
+  <script src="Frontend/API/data_handling/Index/Metrics_Charts.js"></script>
+
 </body>
 </html>

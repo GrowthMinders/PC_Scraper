@@ -17,6 +17,9 @@ function cpu_data() {
           cpu_use.innerHTML = `<strong>Usage:</strong> ${data.load_percent}%`;
           cpu_up.innerHTML = `<strong>Up Time:</strong> ${data.uptime}`;
 
+          //Total CPU Usage Chart
+          updateLiveChart('cpuLoad', data.precision_load, 'processor');
+
         }
     };
 
@@ -53,8 +56,14 @@ function ram_data() {
 
           var usram = totram - fram;
 
-          usage_ram.innerHTML = `<strong>Usage:</strong> ${parseInt((usagePercent = (usram / totram) * 100))}%`;
+          var usages = (usram / totram) * 100;
+
+          usage_ram.innerHTML = `<strong>Usage:</strong> ${parseInt(usages)}%`;
           display_free_ram.innerHTML = `<strong>Free RAM:</strong> ${instance.free_ram_gb}GB`;
+
+          //Total RAM Usage Chart
+          updateLiveChart('ramLoad', usages, 'rams');
+
         }
     };
 
@@ -70,25 +79,26 @@ function gpu_data() {
     gpu_dynamic.setRequestHeader("Content-Type", "application/json");
 
     gpu_dynamic.onload = function () {
-        if (gpu_dynamic.status === 200) {
-            var gpus = JSON.parse(gpu_dynamic.responseText);
+      if (gpu_dynamic.status === 200) {
+        var gpus = JSON.parse(gpu_dynamic.responseText);
+        
+        gpus.forEach(function(gpu, idx) {
+            var i = idx + 1; 
 
-            gpus.forEach(function(gpu) {
-                // Use the exact match selector for classes with spaces/symbols
-                var current  = gpu.name;
-                var container = document.querySelector('[class="' + current + '"]');
+            var loadSpan = document.getElementById(`gpu-load${i}`);
+            var canvasElement = document.getElementById(`gpuLoad${i}`);
 
-                if (container) {
-                    var loadSpan = container.querySelector(".gpu-load");
-                    if (loadSpan) {
-                       var roundedLoad = Math.round(gpu.load);
-                       loadSpan.innerHTML ="<strong>Usage: </strong>" + roundedLoad + "%";
-                    }
-                } else {
-                    console.log("Could not find div with class: " + gpu.name);
+            if (loadSpan) {
+                var roundedLoad = Math.round(gpu.load) || 0;
+                loadSpan.innerHTML = "<strong>Usage: </strong>" + roundedLoad + "%";
+                
+                // Only update the chart if the canvas exists
+                if (canvasElement) {
+                    updateLiveChart(`gpuLoad${i}`, gpu.load, `vga${i}`);
                 }
-            });
-        }
+            }
+        });
+      }
     };
 
     var params = {hardware:"gpu"};
@@ -120,6 +130,9 @@ function network_data() {
             band.innerHTML = `<strong>Bandwidth:</strong> ${instance.total_kbps} Kbps`;
             upload.innerHTML = `<strong>Upload Speed:</strong> ${instance.send_kbps} Kbps`;
             download.innerHTML = `<strong>Download Speed:</strong> ${instance.receive_kbps} Kbps`;
+
+            //Total Network Usage Chart
+            updateLiveChart('networkLoad', instance.total_kbps, 'network');
 
         }
     };
