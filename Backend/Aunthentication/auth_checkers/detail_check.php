@@ -5,7 +5,7 @@ header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Credentials: true");
 
-  include_once "../../connection.php";
+  include_once "connection.php";
 
   $json = file_get_contents('php://input');
   $data = json_decode($json, true);
@@ -45,4 +45,5 @@ header("Access-Control-Allow-Credentials: true");
   }
 
   mysqli_close($conn);
+  exit;
 ?>

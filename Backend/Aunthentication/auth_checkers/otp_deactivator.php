@@ -42,5 +42,6 @@ if(isset($data['email'])){
        http_response_code(401);
      }
 
-  mysqli_close($conn);     
+  mysqli_close($conn);  
+  exit;   
 ?>

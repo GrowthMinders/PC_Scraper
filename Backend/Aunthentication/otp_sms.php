@@ -1,99 +1,149 @@
 <?php
+// ================== DEBUG (REMOVE IN PRODUCTION) ==================
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// ================== HEADERS ==================
 header("Access-Control-Allow-Origin: http://127.0.0.1:5501");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Credentials: true");
+header("Content-Type: application/json");
 
-include_once 'connection.php';
-$envPath = __DIR__ . '/../../.env'; 
- 
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+// Handle preflight
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-// 1. Get Data from JS
+include_once 'connection.php';
+
+// ================== GET INPUT ==================
 $json = file_get_contents('php://input');
 $data = json_decode($json, true);
+
+if (!$data) {
+    echo json_encode(["status" => "error", "message" => "Invalid JSON input"]);
+    exit;
+}
+
 $telephone = $data['tel'] ?? null;
 
+if (!$telephone) {
+    echo json_encode(["status" => "error", "message" => "Phone number missing"]);
+    exit;
+}
+
+// ================== TIME ==================
 date_default_timezone_set('Asia/Colombo');
 
-$uid = 0;
+// ================== GET USER ID (SAFE) ==================
+$stmt = $conn->prepare("SELECT id FROM users WHERE telephone = ?");
+$stmt->bind_param("s", $telephone);
+$stmt->execute();
+$result = $stmt->get_result();
 
-$sql = "SELECT id FROM users WHERE telephone = '$telephone' ";
+if ($result->num_rows === 0) {
+    echo json_encode(["status" => "error", "message" => "User not found"]);
+    exit;
+}
 
-$query = mysqli_query($conn, $sql);
+$row = $result->fetch_assoc();
+$uid = $row['id'];
 
-  while($row = mysqli_fetch_assoc($query)){ 
-    $uid = $row['id'];
-  }
+// ================== OTP ==================
+$otpCode = rand(100000, 999999); // 6-digit OTP (better UX)
+$hashotp = password_hash($otpCode, PASSWORD_BCRYPT);
 
-
-$now = new DateTime();
-
-$expiry = clone $now;
+// Expiry
+$expiry = new DateTime();
 $expiry->modify('+30 minutes');
-
 $expiry_bd = $expiry->format('Y-m-d H:i:s');
 
-$otpCode = rand(1000000000, 9999999999);
+// ================== INSERT OTP ==================
+$stmt = $conn->prepare("
+    INSERT INTO otp_codes (otp, track, expires_at, attempts, uid, state) 
+    VALUES (?, 'sms', ?, 0, ?, 'not-used|active')
+");
+$stmt->bind_param("ssi", $hashotp, $expiry_bd, $uid);
 
-$hashotp = password_hash($otpCode, PASSWORD_BCRYPT);
-$sql1 = "INSERT INTO otp_codes (otp, track, expires_at, attempts, uid, state) VALUES ('$hashotp', 'sms', '$expiry_bd', 0, $uid, 'not-used|active')";
-
-$query1 = mysqli_query($conn, $sql1);
-
-if(!$telephone){
-  die(json_encode(["status" => "error", "message" => "Phone number missing"])); 
+if (!$stmt->execute()) {
+    echo json_encode(["status" => "error", "message" => "OTP insert failed"]);
+    exit;
 }
 
-if($query1 == true){
-   // Make it look like a friendly notification
-   $messageText = "Dear user, sign in using these credential: {$otpCode}";
+// ================== LOAD ENV ==================
+$envPath = __DIR__ . '/../../.env';
 
-   if (file_exists($envPath)) {
-     $env = parse_ini_file($envPath);
-     define('SMS_PHONE_IP', $env['SMS_PHONE_IP']);
-     define('SMS_PASSWORD', $env['SMS_PASSWORD']);
-     define('SMS_USER', $env['SMS_USER']);
-   }
-
-   $phoneIp = SMS_PHONE_IP;
-   $user = SMS_USER;
-   $pass = SMS_PASSWORD;
-
-   // 3. Prepare Payload (The app expects an array for phoneNumbers)
-   $payload = json_encode([
-      "message" => $messageText,
-      "phoneNumbers" => [$telephone],
-      "simIndex" => 1 // 0 for SIM 1, 1 for SIM 2
-   ]);
-
-   // 4. Send Directly via cURL (Bypasses library issues)
-   $ch = curl_init("http://$phoneIp/message");
-   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-   curl_setopt($ch, CURLOPT_POST, true);
-   curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-   curl_setopt($ch, CURLOPT_HTTPHEADER, [
-      'Content-Type: application/json',
-      'Authorization: Basic ' . base64_encode("$user:$pass")
-   ]);
-
-   $response = curl_exec($ch);
-   $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-   curl_close($ch);
-
-   // 5. Response to JS
-   if($httpCode == 200 || $httpCode == 202){
-      echo json_encode(["status" => "success"]);
-   }else{
-      echo json_encode([
-        "status" => "error", 
-        "message" => "Phone unreachable. Code: $httpCode", 
-        "debug" => $response
-      ]);
-   }
+if (!file_exists($envPath)) {
+    echo json_encode(["status" => "error", "message" => ".env file not found"]);
+    exit;
 }
 
+$env = parse_ini_file($envPath, false, INI_SCANNER_RAW);
+
+if ($env === false) {
+    echo json_encode(["status" => "error", "message" => ".env parsing failed"]);
+    exit;
+}
+
+// Remove hidden BOM characters
+$apiKey = preg_replace('/\x{FEFF}/u', '', trim($env['TEXTBEE_API_KEY'] ?? ''));
+$deviceId = preg_replace('/\x{FEFF}/u', '', trim($env['TEXTBEE_DEVICE_ID'] ?? ''));
+
+if (!$apiKey || !$deviceId) {
+    echo json_encode([
+        "status" => "error",
+        "message" => "API key or Device ID missing",
+        "debug" => $env
+    ]);
+    exit;
+}
+
+// ================== SEND SMS ==================
+$payload = json_encode([
+    "recipients" => [$telephone],
+    "message" => "Your OTP is: $otpCode"
+]);
+
+$url = "https://api.textbee.dev/api/v1/gateway/devices/$deviceId/send-sms";
+
+$ch = curl_init($url);
+
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => $payload,
+    CURLOPT_HTTPHEADER => [
+        'Content-Type: application/json',
+        'x-api-key: ' . $apiKey
+    ],
+]);
+
+$response = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+// ================== HANDLE RESPONSE ==================
+if ($response === false) {
+    echo json_encode([
+        "status" => "error",
+        "message" => "CURL Error",
+        "debug" => curl_error($ch)
+    ]);
+} else if ($httpCode == 200 || $httpCode == 201) {
+    echo json_encode([
+        "status" => "success",
+        "otp_debug" => $otpCode // REMOVE IN PRODUCTION
+    ]);
+} else {
+    echo json_encode([
+        "status" => "error",
+        "message" => "TextBee API Error",
+        "code" => $httpCode,
+        "response" => json_decode($response, true)
+    ]);
+}
+
+curl_close($ch);
 mysqli_close($conn);
+exit;
 ?>

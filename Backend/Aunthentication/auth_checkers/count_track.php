@@ -44,4 +44,5 @@ header("Access-Control-Allow-Credentials: true");
   }
 
   mysqli_close($conn);
+  exit;
 ?>

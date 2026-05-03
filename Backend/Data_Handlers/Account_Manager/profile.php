@@ -5,6 +5,10 @@ header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Credentials: true");
 
+include_once "connection.php";
+
+$profile_details = [];
+
   //To Use JWT Tokens
   require_once __DIR__ . '/../../../vendor/autoload.php';
   use Firebase\JWT\JWT;
@@ -23,16 +27,38 @@ header("Access-Control-Allow-Credentials: true");
 
   $secret_key = base64_decode(JWT_SECRET_KEY);
 
-  //Checking The Signature Of The Session
+  $userId = 0;
+
+//Extracting The Logged In Users Session From The JWT Token
 try {
     $decoded = JWT::decode($stored_session, new Key($secret_key, 'HS512'));
-    http_response_code(200);
-    echo json_encode(["status" => "success"]);
-    exit;
+    $userId = $decoded->uid;
 } catch (Exception $e) {
     http_response_code(401);
     echo json_encode(["error" => $e->getMessage()]);
     exit;
 }
 
+if($userId !== 0){
+  $sql = "SELECT * FROM users WHERE id = $userId ";
+  $query = mysqli_query($conn, $sql);
+
+  while($row = mysqli_fetch_assoc($query)){
+    $profile_details [] = [
+       "uname" => $row["uname"],
+       "fname" => $row["fname"],
+       "lname" => $row["lname"],
+       "email" => $row["email"],
+       "telephone" => $row["telephone"]
+    ];
+  }
+
+  echo json_encode($profile_details);
+  http_response_code(200);
+}else{
+  http_response_code(402);
+}
+
+mysqli_close($conn);
+exit;
 ?>

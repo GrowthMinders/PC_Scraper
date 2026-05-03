@@ -78,10 +78,13 @@
            require $BASE_URL.'Data_Handlers\\Index\\Dynamic_Metrics.php'; //Getting The Dynamic Data About The Hardware
            break;
          
+        //User Management
+        case '/Scraper/api/profile' :
+           require $BASE_URL.'Data_Handlers\\Account_Manager\\profile.php'; //Fetching Profile User Data
+           break;
 
         default:
            http_response_code(500);
         break;
     }
 ?>
-// 

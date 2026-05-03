@@ -74,7 +74,7 @@ header("Access-Control-Allow-Credentials: true");
 
       $payload = [
         "issued" => time(),
-        "exp" => time() + 9000,   // Expires in 2 hours and 30 minutes
+        "exp" => time() + 9000,
         "uid" => $uid
       ];
 
@@ -91,4 +91,5 @@ header("Access-Control-Allow-Credentials: true");
   }  
 
   mysqli_close($conn);
+  exit;
 ?>

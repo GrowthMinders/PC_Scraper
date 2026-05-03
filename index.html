@@ -11,15 +11,34 @@
     <!-- Including Chart.js-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Session Authenticity Testing Script -->
-    <!-- <script src="Frontend/API/authentication/session.js"></script> -->
+    <script src="Frontend/API/authentication/authority.js"></script>
+    <script src="Frontend/API/authentication/session.js"></script>
+    <!-- Font Awsome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <title>PC Scraper</title> 
 </head>
 <body>
 
   <div class="container-fluid d-flex" id="health_banner">
-    <h4>System Health Score:  82% (Good)</h4>
-    <h4>Last Scan: 13/04/2026</h4>
-  
+      <h4>System Health Score:  82% (Good)</h4>
+      
+    <div class="d-flex" id="header_left">
+      <h4 id="last_scan">Last Scan: 13/04/2026</h4>
+      <button type="button" class="btn btn-secondary" id="profilers"
+        data-bs-container="body" 
+        data-bs-toggle="popover" 
+        data-bs-placement="bottom" 
+        data-bs-html="true" 
+        data-bs-content='
+          <a id="prof" class="pop-option" onclick="window.valid();">Profile</a>
+          <a id="chg_pass" class="pop-option" onclick="window.valid();">Change Password</a>
+          <a id="log" class="pop-option" onclick="window.valid();">Log Out</a>'>
+        <img src="Frontend/ASSETS/favicon.ico" style="width: 20px;">      
+      </button>
+    </div>
+
+
   </div>  
 
   <!-- Basic Information Section -->
@@ -140,6 +159,20 @@
   <script src="Frontend/API/data_handling/Index/Static_Metrics.js"></script>
   <script src="Frontend/API/data_handling/Index/Dynamic_Metrics.js"></script>
   <script src="Frontend/API/data_handling/Index/Metrics_Charts.js"></script>
+
+  <!-- Account Management Components -->
+  <script src="Frontend/Sweet_Alert_Pages/profile.js"></script>
+  <script src="Frontend/Sweet_Alert_Pages/change_password.js"></script>
+  <script src="Frontend/Sweet_Alert_Pages/log_out.js"></script>
+
+  <!-- Initiating The Pop Over --> 
+<script>
+  const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+  const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl, {
+    // This forces it to stay at the bottom or top, ignoring the left/right sides
+    fallbackPlacements: ['top', 'bottom'] 
+  }))
+</script>
 
 </body>
 </html>

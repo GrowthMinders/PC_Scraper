@@ -4,6 +4,28 @@
   padding: 15px 25px
 }
 
+#profilers{
+  margin-right: 1.5vw;
+}
+
+#header_left{
+  gap: 2vw;
+}
+
+.pop-option{
+   text-decoration: none;
+   color: black;
+   display: block;
+   padding: 8px 12px;
+}
+
+#prof:hover,
+#chg_pass:hover,
+#log:hover{
+   background-color: rgba(75, 74, 74, 0.075);
+   cursor: pointer;
+}
+
 /*Main div Stylling*/
 #profiler,
 #os-detailer,
@@ -81,8 +103,6 @@
 /* Footer */
 #brand {
    margin-left: 24px;
-   position: fixed;
-   bottom: 4vh;
    left: 0;           
    width: 100%;      
    background-color: white;

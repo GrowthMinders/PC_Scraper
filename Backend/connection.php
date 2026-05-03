@@ -3,7 +3,7 @@
 
    //Getting Access to .env credentials
    if (file_exists($envPath)) {
-       $env = parse_ini_file($envPath);
+       $env = parse_ini_file($envPath, false, INI_SCANNER_RAW);
        define('DB_HOST', $env['DB_HOST']);
        define('DB_USER', $env['DB_USER']);
        define('DB_PASS', $env['DB_PASS']);

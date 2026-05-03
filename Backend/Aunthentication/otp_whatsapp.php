@@ -63,4 +63,5 @@ if($query1 == true){
 }
 
 mysqli_close($conn);
+exit;
 ?>

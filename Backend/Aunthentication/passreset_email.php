@@ -282,4 +282,5 @@ HTML;
   } 
 
 mysqli_close($conn);
+exit;
 ?>
