@@ -83,6 +83,10 @@
            require $BASE_URL.'Data_Handlers\\Account_Manager\\profile.php'; //Fetching Profile User Data
            break;
 
+        case '/Scraper/api/profile_update' :
+           require $BASE_URL.'Data_Handlers\\Account_Manager\\profile_edit.php'; //Email and Telephone Number Updating
+           break;   
+
         default:
            http_response_code(500);
         break;

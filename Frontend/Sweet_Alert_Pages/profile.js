@@ -1,6 +1,13 @@
 function profile(){
   var session_authenticated = sessionStorage.getItem('loged');
 
+  const regexmail = /^[A-Za-z\d]{4,40}(@)(outlook\.com|yahoo\.com|gmail\.com)$/;
+  
+  const regextel = /^(\+94)(70|71|72|73|74|75|76|77|78)([0-9]{7})$/;
+  const regextel1 = /^(\+94)(777)([0-9]{6})$/;
+  const regextel2 = /^(070|071|072|073|074|075|076|077|078)([0-9]{7})$/;
+  const regextel3 = /^(0777)([0-9]{6})$/;
+
   var profile_fetch = new XMLHttpRequest();
   profile_fetch.open("POST", "api/profile");
   profile_fetch.setRequestHeader("Content-Type", "application/json");
@@ -53,9 +60,9 @@ function profile(){
             edits.forEach((icon) => {
               icon.addEventListener("click", function () {
                if(prev_input_memory !== ""){
-                  input_memory = prev_input_memory;
+                  prev_input_memory = input_memory;
                   const tracked = this.getAttribute("target");
-                  prev_input_memory = document.getElementById(tracked);
+                  input_memory = document.getElementById(tracked);
                }else{
                   const tracked = this.getAttribute("target");
                   input_memory = document.getElementById(tracked);
@@ -71,7 +78,6 @@ function profile(){
                     btn.style.backgroundColor = '#28a745';
                     edit++;
                   }
-                  // Optional: Add logic here to save the data via API (Always get value of [input_memory])
 
                 }else{ 
                   prev_input_memory.setAttribute("readonly", "true");
@@ -86,6 +92,83 @@ function profile(){
                 }
               });
             });
+          
+          btn.addEventListener("click", function () {
+            if(prev_input_memory !== "" || input_memory !== ""){
+             var email = document.getElementById("email").value;
+             var tel = document.getElementById("tel").value;
+
+             if(email === "" || tel === ""){
+               Swal.fire({
+                 title: 'Oops',
+                 text: 'All Fields Are Required!',
+                 icon: 'error',
+                 confirmButtonColor: '#e9101085'
+               });
+             }else if(!regexmail.test(email)){
+               Swal.fire({
+                 title: 'Oops',
+                 text: 'Only Outlook, Yahoo and Gmail Accounts Are Allowed!',
+                 icon: 'error',
+                 confirmButtonColor: '#e9101085'
+               });
+             }else if(!regextel.test(tel) && !regextel1.test(tel) && !regextel2.test(tel) && !regextel3.test(tel)){
+               Swal.fire({
+                 title: 'Oops',
+                 text: 'Invalid Phone Number!',
+                 icon: 'error',
+                 confirmButtonColor: '#e9101085'
+               });
+             }else{
+               var profile_id_grab = new XMLHttpRequest();
+               profile_id_grab.open("POST", "api/profile_update");
+               profile_id_grab.setRequestHeader("Content-Type", "application/json");
+    
+               profile_id_grab.onload = function () {
+                 if(profile_id_grab.status == 200){
+                    var ids = JSON.parse(profile_id_grab.responseText);
+
+                    var profile_update = new XMLHttpRequest();
+                    profile_update.open("POST", "api/profile_update");
+                    profile_update.setRequestHeader("Content-Type", "application/json");
+    
+                    profile_update.onload = function () {
+                      if(profile_update.status == 200){
+                        Swal.fire({
+                         title: 'Done',
+                         text: 'Account Details Successfully Edited',
+                         icon: 'success',
+                         confirmButtonColor: '#1ad4439c'
+                        }).then((result) => {
+                           profile(); 
+                        });
+                      }else{
+                       Swal.fire({
+                        title: 'Oops',
+                        text: 'Unable to update account details at these moment',
+                        icon: 'error',
+                        confirmButtonColor: '#e9101085'
+                       }); 
+                      }  
+                   };
+                   var params = {id:ids, email:email, tel:tel};
+                   var jsonparams = JSON.stringify(params);
+                   profile_update.send(jsonparams);
+                  
+                 }else{
+                   Swal.fire({
+                    title: 'Oops',
+                    text: 'Unable To fetch User Right Now!',
+                    icon: 'error',
+                    confirmButtonColor: '#e9101085'
+                   }); 
+                 }
+               };
+               profile_id_grab.send(session_authenticated);
+             }
+            }
+          });  
+
         },
       }); 
     
@@ -108,24 +191,3 @@ function profile(){
   };
   profile_fetch.send(session_authenticated);
 }
-
-/*
-
-      Swal.fire({
-        title: 'User Profile',
-        html: `
-          <div style="text-align: center; padding: 20px;"> 
-            <div style="margin-bottom: 20px;">
-               <img src="http://localhost/Scraper/Frontend/ASSETS/DP.avif" style="border-radius: 50%; width: 120px; height: 120px;"
-                alt="Avatar">
-            </div>
-
-            <input type="text" id="uname" class="swal2-input" style="width: 350px;" value="${instance.uname}" readonly>
-            <input type="text" id="name" class="swal2-input" style="width: 350px;" value="${instance.fname + " " + instance.lname}" readonly>
-            <input type="text" id="email" class="swal2-input" style="width: 350px;" value="${instance.email}">
-            <input type="text" id="tel" class="swal2-input" style="width: 350px;" value="${instance.telephone}">
-
-          </div>`
-      }); 
-
-*/
