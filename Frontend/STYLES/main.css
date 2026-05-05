@@ -1,3 +1,4 @@
+/*Index Page*/
 /*The Top Most Banner With Health Score And Date*/
 #health_banner{
   justify-content: space-between;
@@ -109,4 +110,135 @@
    z-index: 1000; 
    font-size: 25px;
    font-weight: bold;
+}
+
+
+/*Login Page*/
+#brand_panel{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content:end; 
+   height: 40vh;
+}
+
+#login_panel{
+   margin-top: 4vh;
+   border: green solid 4px;
+   height: 35vh;
+   width: 20vw;
+   border-radius: 19px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   gap: 2vh;
+   background-color: rgba(71, 158, 71, 0.815);
+}
+
+#login_panel input{
+   width: 56%;
+   padding: 10px;
+   border: gray solid 1px;
+   border: green solid 4px;
+   border-radius: 8px;
+}
+
+#login_panel a{
+   align-self:flex-start;
+   margin-left: 21%;
+   text-decoration: none;
+   color: black;
+   margin-bottom: -1vh;
+   margin-top: -1vh;
+}
+
+#log_btn{
+   width: 60%;
+   padding: 10px;
+   border: green solid 4px;
+   border-radius: 8px;
+   font-weight: bold;
+}
+
+#login_panel a:hover{
+   cursor: pointer;
+}
+
+#login_panel input::placeholder{
+   color: rgba(71, 158, 71, 0.815);
+   font-weight: bold;
+   font-family: 'Times New Roman', Times, serif;
+   font-size: larger;
+}
+
+#company-logo{
+  margin-top: 1vh;
+}
+
+.uname{
+  margin-top: 2vh; 
+}
+
+/*Registration Page*/
+#reg_brand_panel{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content:end; 
+   height: 28vh;
+}
+
+#register_panel{
+   margin-top: 4vh;
+   border: green solid 4px;
+   height: 60vh;
+   width: 20vw;
+   border-radius: 19px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   gap: 2vh;
+   background-color: rgba(71, 158, 71, 0.815);
+}
+
+#register_panel input{
+   width: 56%;
+   padding: 10px;
+   border: gray solid 1px;
+   border: green solid 4px;
+   border-radius: 8px;
+}
+
+#reg_btn{
+   width: 60%;
+   padding: 10px;
+   border: green solid 4px;
+   border-radius: 8px;
+   font-weight: bold;
+}
+
+#register_panel input::placeholder{
+   color: rgba(71, 158, 71, 0.815);
+   font-weight: bold;
+   font-family: 'Times New Roman', Times, serif;
+   font-size: larger;
+}
+
+.fname{
+  margin-top: 2vh;  
+}
+
+/*Password Reset Page*/
+#reset_btn{
+   width: 60%;
+   padding: 10px;
+   border: green solid 4px;
+   border-radius: 8px;
+   font-weight: bold;
+}
+
+.pass{
+   margin-top: 2vh;
 }

@@ -3,16 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="icon" type="image/x-icon" href="../ASSETS/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../ASSETS/favicon.ico">
+    <link href="../STYLES/main.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>PC Sraper</title>
 </head>
 <body>
    <div>
-     <input type="text" id="uname" placeholder="Username">
-     <input type="password" id="pass" placeholder="Password">
-     <a id="fpass">Forgot Password?</a>
-     <button id="log_btn">Login</button>
+    
+     <div id="brand_panel">
+       <img src="../ASSETS/Logo.png" alt="Logo">
+     </div>
+
+     <center><div id="login_panel">
+        <input type="text" id="uname" class="uname" placeholder="Username">
+        <input type="password" id="pass" placeholder="Password">
+        <a id="fpass">Forgot Password?</a>
+        <button id="log_btn">Login</button>
+        <img src="../ASSETS/Sri_Dedunu_Tech_Solutions.png" id="company-logo">
+     </div></center>
+
    </div>
 
     <script src="../API/authentication/login.js"></script>

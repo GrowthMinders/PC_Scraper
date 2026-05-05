@@ -126,7 +126,7 @@ forgot.addEventListener("click", function () {
       }else{
         Swal.fire({
           title: "Error!",
-          text: "Invalid Emial Address",
+          text: "Invalid Email Address",
           icon: "error",
         });
     }   

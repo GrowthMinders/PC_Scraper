@@ -44,161 +44,105 @@ $invoiceHTML = <<<HTML
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OTP Code</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
-
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f8f8;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
             margin: 0;
-            padding: 20px;
+            padding: 40px;
+            color: #444;
+        }
+
+        .email-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 40px;
+        }
+
+        .header {
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 25px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Simulating the logo colors */
+        .company-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #4b8b3b; /* LankaHost Green */
+            margin-left: 10px;
+        }
+
+        .company-name span {
+            color: #2c3e50; /* Web Solutions color */
+        }
+
+        .content {
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .otp-display {
+            font-size: 18px;
+            margin: 20px 0;
             color: #333;
         }
 
-        .invoice-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .invoice-header {
-            background: green;
-            color: white;
-            padding: 30px;
-        }
-
-        .restaurant-name {
-            font-size: 32px;
-            font-weight: 700;
-            margin: 0;
-            letter-spacing: 1px;
-        }
-
-        .invoice-title {
-            font-size: 24px;
-            margin: 10px 0 0;
-            font-weight: 600;
-        }
-
-        .invoice-logo {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .invoice-info {
-            display: flex;
-            flex-direction: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px 30px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .info-section {
-            margin: 8px 0;
-        }
-
-        .info-label {
-            font-weight: 600;
-            color: #666;
-            margin-bottom: 5px;
+        .system-info {
+            margin-top: 25px;
             font-size: 14px;
-        }
-
-        .info-value {
-            font-size: 16px;
-        }
-
-        .items-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .items-table th {
-            background-color: #f5f5f5;
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
             color: #555;
         }
 
-        .items-table td {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .items-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .text-right {
-            text-align: right;
-        }
-
-        .total-section {
-            padding: 20px 30px;
-            background-color: #f9f9f9;
-            border-top: 1px solid #eee;
-        }
-
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .total-label {
-            font-weight: 600;
-        }
-
-        .grand-total {
-            font-size: 20px;
-            color: #ff6b6b;
-            font-weight: 700;
-        }
-
         .footer {
-            padding: 20px 30px;
-            text-align: center;
-            color: #777;
-            font-size: 14px;
-            border-top: 1px solid #eee;
-        }
-
-        .thank-you {
-            font-size: 18px;
-            color: #ff6b6b;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .item-name {
-            font-weight: 600;
-        }
-
-        .item-desc {
+            margin-top: 30px;
             font-size: 13px;
-            color: #777;
-            margin-top: 3px;
-        }
-
-        .reset-link {
-            display: block;
-            margin: 20px 0;
-            padding: 10px;
-            background: #f0f0f0;
-            border-left: 4px solid #ff6b6b;
-            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
-    <div class="invoice-container">
-        <div class="invoice-header">
-            <h1 class="restaurant-name">OTP Code: {$otpCode}</h1>
+    <div class="email-container">
+        <div class="header">
+            <div class="logo-section">
+                <center><img src="https://drive.google.com/file/d/1JQzxTgzIqJw2-vldFq_A7IO_Lz3oCvim" style="height: 80px; width: 100px;"></center>
+                <h1 class="company-name">Sri Dedunu Tech Solutions<span style="font-size: 20px; font-weight: normal;">PC Scraper: The Ultimate Solution For Complex Network And Hardware Management Support</span></h1>
+            </div>
         </div>
+
+        <div class="content">
+            <p>Dear Ashen,</p>
+            
+            <p>Please use the one time password below to authorize your account</p>
+            
+            <div class="otp-display">
+                <strong>{$otpCode}</strong>
+            </div>
+
+            <div class="system-info">
+                IP Address: {$_SERVER['REMOTE_ADDR']}<br>
+                Hostname: {$_SERVER['REMOTE_ADDR']}
+            </div>
+        </div>
+
+        <div class="footer">
+            <strong>Sri Dedunu Tech Solutions</strong><br>
+            304/F, Kindelpitiya, Katukurunda Road, Welmilla<br>
+            Bandaragama, Sri Lanka
+        </div>
+    </div>
+</body>
+</html>
 HTML;
 
 

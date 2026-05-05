@@ -4,12 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../ASSETS/favicon.ico">
+    <link href="../STYLES/main.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>PC Scraper</title>
 </head>
 <body>
-   <div>
-     <input type="text" id="fname" placeholder="First Name">
+
+  <div id="reg_brand_panel">
+    <img src="../ASSETS/Logo.png" alt="Logo">
+  </div>
+
+  <center><div id="register_panel">
+     <input type="text" id="fname" class="fname" placeholder="First Name">
      <input type="text" id="lname" placeholder="Last Name">
      <input type="text" id="uname" placeholder="Username">
      <input type="text" id="email" placeholder="Email">
@@ -17,7 +23,9 @@
      <input type="password" id="pass" placeholder="Password">
      <input type="password" id="cpass" placeholder="Confirm Password">
      <button id="reg_btn">Register</button> 
-   </div> 
+
+     <img src="../ASSETS/Sri_Dedunu_Tech_Solutions.png" id="company-logo">
+  </div></center>
 
    <script src="../API/authentication/register.js"></script>
 </body>
