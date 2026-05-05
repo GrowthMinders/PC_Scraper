@@ -85,7 +85,11 @@
 
         case '/Scraper/api/profile_update' :
            require $BASE_URL.'Data_Handlers\\Account_Manager\\profile_edit.php'; //Email and Telephone Number Updating
-           break;   
+           break;
+           
+        case '/Scraper/api/change_password' :
+           require $BASE_URL.'Data_Handlers\\Account_Manager\\change_password.php'; //User Password Changing 
+           break; 
 
         default:
            http_response_code(500);

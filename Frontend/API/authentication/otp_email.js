@@ -20,7 +20,16 @@ function OTPmail(){
         mailchekcer.setRequestHeader("Content-Type", "application/json");
         mailchekcer.onload = function () {
           if(mailchekcer.status == 200) {
- 
+              Swal.fire({
+               title: 'Sending OTP...',
+               html: `Sending OTP to <b>${mail}</b><br>Please wait...`,
+               allowOutsideClick: false,
+               showConfirmButton: false,
+                didOpen: () => {
+                  Swal.showLoading();
+                }
+              }); 
+              
             //Sending the OTP throgh email
              var logreq = new XMLHttpRequest();
              logreq.open("POST", "api/otp_mail");
@@ -28,6 +37,7 @@ function OTPmail(){
              logreq.onload = function () {
                if (logreq.status == 200) {
                 //Verification of the OTP received by the user
+                 Swal.close(); 
                  Swal.fire({
                    title: "Success!",
                    text: "OTP Sent successfully to " + mail + "!",
@@ -181,6 +191,7 @@ function OTPmail(){
              logreq.send(jsonData);
 
           }else{
+            Swal.close(); 
             Swal.fire({
               title: "Error!",
               text: "Email address did not match our records. Please enter a valid email address.",
