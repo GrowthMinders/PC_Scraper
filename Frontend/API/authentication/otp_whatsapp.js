@@ -20,7 +20,16 @@ function OTPwhat(){
         mailchekcer.setRequestHeader("Content-Type", "application/json");
         mailchekcer.onload = function () {
           if(mailchekcer.status == 200) {
- 
+               Swal.fire({
+                 title: 'Sending OTP...',
+                 html: `Sending OTP to <b>${tel_no}</b><br>Please wait...`,
+                 allowOutsideClick: false,
+                 showConfirmButton: false,
+                 didOpen: () => {
+                   Swal.showLoading();
+                 }
+               });
+
             //Sending the OTP throgh Contact Number
              var logreq = new XMLHttpRequest();
              logreq.open("POST", "api/otp_whatsapp");
@@ -28,6 +37,7 @@ function OTPwhat(){
              logreq.onload = function () {
                if (logreq.status == 200) {
                 //Verification of the OTP received by the user
+                 Swal.close(); 
                  Swal.fire({
                    title: "Success!",
                    text: "OTP Sent successfully to " + tel_no + "!",

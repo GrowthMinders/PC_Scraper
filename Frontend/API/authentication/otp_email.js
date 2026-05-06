@@ -26,7 +26,7 @@ function OTPmail(){
                allowOutsideClick: false,
                showConfirmButton: false,
                 didOpen: () => {
-                  Swal.showLoading();
+                  Swal.showLoading(); 
                 }
               }); 
               
