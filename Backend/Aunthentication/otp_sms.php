@@ -51,7 +51,7 @@ $row = $result->fetch_assoc();
 $uid = $row['id'];
 
 // ================== OTP ==================
-$otpCode = rand(100000, 999999); // 6-digit OTP (better UX)
+$otpCode = rand(100000, 999999);
 $hashotp = password_hash($otpCode, PASSWORD_BCRYPT);
 
 // Expiry

@@ -33,7 +33,19 @@ if (empty($email)) {
     exit(); // Stop further execution
 }
 
-$otpCode = rand(1000000000, 9999999999);
+$otpCode = rand(100000, 999999);
+
+
+$name = "";
+  
+$sql2 = "SELECT fname, lname FROM users WHERE email = '$email' ";
+
+$query2 = mysqli_query($conn, $sql2);
+
+  while($row2 = mysqli_fetch_assoc($query2)){ 
+    $name = $row2['fname'] . ' ' . $row2['lname'];
+  }
+
 
 // HTML content for the invoice
 $invoiceHTML = <<<HTML
@@ -121,9 +133,10 @@ $invoiceHTML = <<<HTML
         </div>
 
         <div class="content">
-            <p>Dear Ashen,</p>
+            <p>Dear {$name},</p>
             
             <p>Please use the one time password below to authorize your account</p>
+            <p>Use these OTP code to log in to the account. This OTP will expire in 30 minutes.</p>
             
             <div class="otp-display">
                 <strong>{$otpCode}</strong>

@@ -31,7 +31,7 @@ $expiry->modify('+30 minutes');
 
 $expiry_bd = $expiry->format('Y-m-d H:i:s');
 
-$otpCode = rand(1000000000, 9999999999);
+$otpCode = rand(100000, 999999);
 
 $hashotp = password_hash($otpCode, PASSWORD_BCRYPT);
 $sql1 = "INSERT INTO otp_codes (otp, track, expires_at, attempts, uid, state) VALUES ('$hashotp', 'what', '$expiry_bd', 0, $uid, 'not-used|active')";
