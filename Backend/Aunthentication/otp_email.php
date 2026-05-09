@@ -126,10 +126,29 @@ $invoiceHTML = <<<HTML
 <body>
     <div class="email-container">
         <div class="header">
-            <div class="logo-section">
-                <center><img src="https://drive.google.com/file/d/1JQzxTgzIqJw2-vldFq_A7IO_Lz3oCvim" style="height: 80px; width: 100px;"></center>
-                <h1 class="company-name">Sri Dedunu Tech Solutions<span style="font-size: 20px; font-weight: normal;">PC Scraper: The Ultimate Solution For Complex Network And Hardware Management Support</span></h1>
+          <div class="container mt-4">
+            <div class="d-flex align-items-center">
+             <!-- Logo Section -->
+             <div class="me-3">
+                <center><img src="https://1drv.ms/i/c/d1ec707daa45f29c/IQRxDFdOmKZjRbe9y_nEehplAZwEpxWmpEJz4Q8gA0eoTwk" 
+                   alt="Logo" 
+                   style="height: 100px; width: 120px;" 
+                   class="img-fluid">
+                </center>
+             </div>
+        
+             <!-- Detail Section -->
+             <div>
+               <center><h1 class="company-name mb-0" style="color: #6a8c4e; font-size: 2.5rem;">
+                Sri Dedunu Tech Solutions
+               </h1></center>
+
+               <p class="mb-0" style="font-size: 1.25rem; color: #333;">
+                <strong>PC Scraper:</strong> The Ultimate Solution For Complex Network And Hardware Management Support
+               </p>
+             </div>
             </div>
+          </div>
         </div>
 
         <div class="content">
@@ -142,10 +161,6 @@ $invoiceHTML = <<<HTML
                 <strong>{$otpCode}</strong>
             </div>
 
-            <div class="system-info">
-                IP Address: {$_SERVER['REMOTE_ADDR']}<br>
-                Hostname: {$_SERVER['REMOTE_ADDR']}
-            </div>
         </div>
 
         <div class="footer">
@@ -236,5 +251,5 @@ HTML;
   }
 
 mysqli_close($conn);
-eixt;
+exit;
 ?>

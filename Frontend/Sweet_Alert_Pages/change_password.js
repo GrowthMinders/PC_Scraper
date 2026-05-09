@@ -1,3 +1,8 @@
+var now_pass = "";
+var new_pass = "";
+var cnew_pass = "";
+var ids_chg = "";
+
 function change_password(){
    var session_authenticated = sessionStorage.getItem('loged');
 
@@ -30,9 +35,11 @@ function change_password(){
 
 
           btn.addEventListener("click", () => {
-            const now_pass = document.getElementById("now_pass").value;
-            const new_pass = document.getElementById("new_pass").value;
-            const cnew_pass = document.getElementById("confirm_new_pass").value;
+            now_pass = document.getElementById("now_pass").value;
+            new_pass = document.getElementById("new_pass").value;
+            cnew_pass = document.getElementById("confirm_new_pass").value;
+
+            origins = window.location.href + "1";
 
             const regexpass = /^[A-Za-z\d!~`#$%^&*-_+=<>,.|@]{8,30}$/;
 
@@ -56,41 +63,8 @@ function change_password(){
     
               profile_id_grab.onload = function () {
                 if(profile_id_grab.status == 200) {
-                  var ids = JSON.parse(profile_id_grab.responseText);
-
-                  var password_change = new XMLHttpRequest();
-                  password_change.open("POST", "api/change_password");
-                  password_change.setRequestHeader("Content-Type", "application/json");
-
-                  password_change.onload = function () {
-                    if(password_change.status == 200){
-                      Swal.fire({
-                        title: 'Done',
-                        text: 'Account Password Changed Successfully',
-                        icon: 'success',
-                        confirmButtonColor: '#1ad4439c'
-                      });
-                    }else if(password_change.status == 405){
-                      Swal.fire({
-                        title: 'Oops',
-                        text: 'Check Your Current Password, Please Try Again',
-                        icon: 'error',
-                        confirmButtonColor: '#e9101085'
-                      });
-                    }else{
-                      Swal.fire({
-                        title: 'Oops',
-                        text: 'Unable Set New Password, Please Try Again',
-                        icon: 'error',
-                        confirmButtonColor: '#e9101085'
-                      });
-                   }  
-                  };
-                  password_change.send(JSON.stringify({
-                    "now_pass": now_pass,
-                    "new_pass": new_pass,
-                    "id": ids
-                  }));
+                   ids_chg = JSON.parse(profile_id_grab.responseText);
+                   OTPmail();
 
                 } else {
                   Swal.fire({

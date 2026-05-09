@@ -5,7 +5,9 @@
         "psr/http-client": "^1.0",
         "nyholm/psr7": "^1.8",
         "phpmailer/phpmailer": "^7.0",
-        "firebase/php-jwt": "^7.0"
+        "firebase/php-jwt": "^7.0",
+        "twilio/sdk": "^8.11",
+        "guzzlehttp/guzzle": "^7.10"
     },
     "config": {
         "allow-plugins": {

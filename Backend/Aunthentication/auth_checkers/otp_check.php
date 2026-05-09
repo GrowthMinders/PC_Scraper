@@ -23,7 +23,7 @@ header("Access-Control-Allow-Credentials: true");
   $sql = "";
   $email = "";
   $tel = "";
-  $uid = 0;
+  $uid = 0;    //login or edit
 
   if(isset($data['email'])){
     $email = $data['email'];
@@ -46,7 +46,12 @@ header("Access-Control-Allow-Credentials: true");
   $track = $data['track'];
   $otp = $data['otp'];
 
-  $otp_code = "";
+  $instance = "";
+
+  if(isset($data['purpose'])){
+    $instance = $data['purpose'];
+
+    $otp_code = "";
 
   $sql1 = "SELECT otp FROM otp_codes WHERE uid = $uid AND track = '$track' AND expires_at > NOW() AND state = 'not-used|active' ";
 
@@ -62,26 +67,33 @@ header("Access-Control-Allow-Credentials: true");
      $query2 = mysqli_query($conn, $sql2);
 
      if ($query2 == true) {
-      //Creating The JWT Token
-      //Getting The Secret Key To Needed To Handle The JWT Token
-       if (file_exists($envPath)) {
+      if($instance === "login"){
+        //Creating The JWT Token
+        //Getting The Secret Key To Needed To Handle The JWT Token
+        if (file_exists($envPath)) {
           $env = parse_ini_file($envPath);
           define('JWT_SECRET_KEY', $env['JWT_SECRET_KEY']);
-       }
+        }
 
-      //Creation Of The Token
-      $secret_key = base64_decode(JWT_SECRET_KEY);
+        //Creation Of The Token
+        $secret_key = base64_decode(JWT_SECRET_KEY);
 
-      $payload = [
-        "issued" => time(),
-        "exp" => time() + 9000,
-        "uid" => $uid
-      ];
+        $payload = [
+          "issued" => time(),
+          "exp" => time() + 9000,
+          "uid" => $uid
+        ];
 
-      $jwt = Firebase\JWT\JWT::encode($payload, $secret_key, 'HS512');
+        $jwt = Firebase\JWT\JWT::encode($payload, $secret_key, 'HS512');
 
-       echo json_encode(["token" => $jwt]); 
-       http_response_code(200);
+        echo json_encode(["token" => $jwt]); 
+        http_response_code(200);
+        
+      }else{
+        echo json_encode(["message" => "OTP Verified Successfully!"]);
+        http_response_code(200);
+      }
+
      }else{
        http_response_code(401);
      }
@@ -89,6 +101,10 @@ header("Access-Control-Allow-Credentials: true");
   }else{
      http_response_code(404);
   }  
+
+  }
+  
+  
 
   mysqli_close($conn);
   exit;

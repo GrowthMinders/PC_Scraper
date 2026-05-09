@@ -91,6 +91,36 @@
            require $BASE_URL.'Data_Handlers\\Account_Manager\\change_password.php'; //User Password Changing 
            break; 
 
+        //User Management (OTP Section)    
+        case '/Scraper/api/check_alert' :
+           require $BASE_URL.'Aunthentication\\auth_checkers\\detail_check.php'; //Email Address, Whatsapp Number, SMS Number Checker (Password Changing and Profile Updating)
+           break;
+
+        case '/Scraper/api/otp_alert' :
+           require $BASE_URL.'Aunthentication\\auth_checkers\\otp_check.php'; //OTP Verification Script (Password Changing and Profile Updating)
+           break;
+
+        case '/Scraper/api/count_alert' :
+           require $BASE_URL.'Aunthentication\\auth_checkers\\count_track.php'; //OTP Failed Attempts Tracker (Password Changing and Profile Updating)
+           break;
+
+        case '/Scraper/api/otp_deactivate_alert' :
+           require $BASE_URL.'Aunthentication\\auth_checkers\\otp_deactivator.php'; //OTP Deactivation Script (Password Changing and Profile Updating)
+           break;
+
+        case '/Scraper/api/otp_mail_alert' :
+           require $BASE_URL.'Aunthentication\\otp_email.php'; //Email Sending Script (Password Changing and Profile Updating)
+           break;  
+
+        case '/Scraper/api/otp_sms_alert' :
+           require $BASE_URL.'Aunthentication\\otp_sms.php'; //SMS Sending Script (Password Changing and Profile Updating)
+           break;  
+           
+        case '/Scraper/api/otp_whatsapp_alert' :
+           require $BASE_URL.'Aunthentication\\otp_whatsapp.php'; //WhatsApp Message Sending Script (Password Changing and Profile Updating)
+           break; 
+
+
         default:
            http_response_code(500);
         break;

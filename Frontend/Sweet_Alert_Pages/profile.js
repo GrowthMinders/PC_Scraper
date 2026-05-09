@@ -1,3 +1,8 @@
+var email = "";
+var tel = "";
+var ids = "";
+var tracker = "";
+
 function profile(){
   var session_authenticated = sessionStorage.getItem('loged');
 
@@ -95,8 +100,10 @@ function profile(){
           
           btn.addEventListener("click", function () {
             if(prev_input_memory !== "" || input_memory !== ""){
-             var email = document.getElementById("email").value;
-             var tel = document.getElementById("tel").value;
+             email = document.getElementById("email").value;
+             tel = document.getElementById("tel").value;
+
+             origins = window.location.href;
 
              if(email === "" || tel === ""){
                Swal.fire({
@@ -126,35 +133,55 @@ function profile(){
     
                profile_id_grab.onload = function () {
                  if(profile_id_grab.status == 200){
-                    var ids = JSON.parse(profile_id_grab.responseText);
+                    var comparison_data = JSON.parse(profile_id_grab.responseText);
 
-                    var profile_update = new XMLHttpRequest();
-                    profile_update.open("POST", "api/profile_update");
-                    profile_update.setRequestHeader("Content-Type", "application/json");
-    
-                    profile_update.onload = function () {
-                      if(profile_update.status == 200){
-                        Swal.fire({
-                         title: 'Done',
-                         text: 'Account Details Successfully Edited',
-                         icon: 'success',
-                         confirmButtonColor: '#1ad4439c'
-                        }).then((result) => {
-                           profile(); 
-                        });
-                      }else{
-                       Swal.fire({
-                        title: 'Oops',
-                        text: 'Unable to update account details at these moment',
-                        icon: 'error',
-                        confirmButtonColor: '#e9101085'
-                       }); 
-                      }  
-                   };
-                   var params = {id:ids, email:email, tel:tel};
-                   var jsonparams = JSON.stringify(params);
-                   profile_update.send(jsonparams);
-                  
+                    var detail = comparison_data[0];
+                    ids = detail.id;
+
+                    if(detail.tel !== tel){
+                      tracker = "email";
+                      Swal.fire({
+                        title: "Select OTP Mode",
+                        input: "select",
+                        inputOptions: {
+                          email: "Email",
+                        },
+                        inputPlaceholder: "Select preferred OTP mode",
+                      }).then((result) => {
+                          OTPmail();
+                      });
+
+                    }else if(detail.email !== email){
+                      tracker = "tel";
+                      Swal.fire({
+                         title: "Select OTP Mode",
+                        input: "select",
+                        inputOptions: {
+                          sms: "SMS",
+                          what: "Whatsapp",
+                        },
+                        inputPlaceholder: "Select preferred OTP mode",
+                      }).then((result) => {
+                        const otp_mode = result.value;
+
+                        if (otp_mode === "sms") {
+                          OTPsms();
+                        } else {
+                          OTPwhat();
+                        }
+
+
+                      });
+
+                    }else{
+                      Swal.fire({
+                       title: 'Oops',
+                       text: 'None Of The Details Were Changed!',
+                       icon: 'info',
+                       confirmButtonColor: '#28a745'
+                     });
+                    }
+
                  }else{
                    Swal.fire({
                     title: 'Oops',

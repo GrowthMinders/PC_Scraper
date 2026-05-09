@@ -7,6 +7,8 @@ header("Access-Control-Allow-Credentials: true");
 
 include_once "connection.php";
 
+$bd_details = [];
+
   //To Use JWT Tokens
   require_once __DIR__ . '/../../../vendor/autoload.php';
   use Firebase\JWT\JWT;
@@ -18,19 +20,29 @@ include_once "connection.php";
   $json = file_get_contents('php://input');
 
   $data = json_decode($json, true);
-    
-  if(isset($data['id']) && isset($data['email']) && isset($data['tel'])){
-    $ids = $data['id'];
-    $email = $data['email'];
-    $tel = $data['tel'];
 
-    $sql = "UPDATE users SET email = '$email', telephone = '$tel' WHERE id = $ids ";
-    $query = mysqli_query($conn, $sql);
+  if(isset($data['trackers'])){
+    if($data['trackers'] === "email"){
+      $ids = $data['id'];
+      $email = $data['email'];
+      
+      $sql = "UPDATE users SET email = '$email' WHERE id = $ids ";
+      $query = mysqli_query($conn, $sql);
 
-    if(mysqli_affected_rows($conn) > 0){
-      http_response_code(200);
+      if(mysqli_affected_rows($conn) > 0){
+        http_response_code(200);
+      }
+    }else{
+      $tel = $data['tel'];
+
+      $sql = "UPDATE users SET telephone = '$tel' WHERE id = $ids ";
+      $query = mysqli_query($conn, $sql);
+
+      if(mysqli_affected_rows($conn) > 0){
+        http_response_code(200);
+      }
     }
-
+    
   }else{
     $stored_session = file_get_contents('php://input');
 
@@ -47,8 +59,20 @@ include_once "connection.php";
     try {
        $decoded = JWT::decode($stored_session, new Key($secret_key, 'HS512'));
        $userId = $decoded->uid;
+
+         $sql = "SELECT email, telephone FROM users WHERE id = $userId ";
+         $query = mysqli_query($conn, $sql);
+
+         while($row = mysqli_fetch_assoc($query)){
+           $db_details [] = [
+             "email" => $row["email"],
+             "tel" => $row["telephone"],
+             "id" => $userId
+           ];
+         }
+
        http_response_code(200);
-       echo json_encode($userId);
+       echo json_encode($db_details);
     } catch (Exception $e) {
        http_response_code(401);
        echo json_encode(["error" => $e->getMessage()]);

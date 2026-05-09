@@ -8,10 +8,16 @@ class ComposerStaticIniteb9a590a8b775b5d66d81bf34c5dccb6
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
+        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'T' =>
+        array (
+            'Twilio\\' => 7,
+        ),
         'S' =>
         array (
             'Symfony\\Polyfill\\Php83\\' => 23,
@@ -35,6 +41,12 @@ class ComposerStaticIniteb9a590a8b775b5d66d81bf34c5dccb6
         array (
             'Http\\Discovery\\' => 15,
         ),
+        'G' =>
+        array (
+            'GuzzleHttp\\Psr7\\' => 16,
+            'GuzzleHttp\\Promise\\' => 19,
+            'GuzzleHttp\\' => 11,
+        ),
         'F' =>
         array (
             'Firebase\\JWT\\' => 13,
@@ -46,6 +58,10 @@ class ComposerStaticIniteb9a590a8b775b5d66d81bf34c5dccb6
     );
 
     public static $prefixDirsPsr4 = array (
+        'Twilio\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/twilio/sdk/src/Twilio',
+        ),
         'Symfony\\Polyfill\\Php83\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php83',
@@ -90,6 +106,18 @@ class ComposerStaticIniteb9a590a8b775b5d66d81bf34c5dccb6
         'Http\\Discovery\\' =>
         array (
             0 => __DIR__ . '/..' . '/php-http/discovery/src',
+        ),
+        'GuzzleHttp\\Psr7\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
+        ),
+        'GuzzleHttp\\Promise\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
+        ),
+        'GuzzleHttp\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
         'Firebase\\JWT\\' =>
         array (

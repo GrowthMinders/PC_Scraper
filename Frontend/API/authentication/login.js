@@ -5,6 +5,8 @@ var forgot = document.getElementById("fpass");
 var uname = document.getElementById("uname");
 var pass = document.getElementById("pass");
 
+var origins = "";
+
 btn.addEventListener("click", function () {
   if (uname.value === "") {
     Swal.fire({
@@ -38,10 +40,13 @@ btn.addEventListener("click", function () {
           const otp_mode = result.value;
     
           if(otp_mode === "sms"){
+            origins = window.location.href;
             OTPsms(); 
           }else if(otp_mode === "what"){
+            origins = window.location.href;
             OTPwhat();
           }else{
+            origins = window.location.href;
             OTPmail();
           }
      });
