@@ -92,8 +92,12 @@
            break; 
 
         case '/Scraper/api/delete_profile' :
-           require $BASE_URL.'Data_Handlers\\Account_Manager\\delete_profile.php'; //Profile Deletion Script 
+           require $BASE_URL.'Data_Handlers\\Account_Manager\\delete_profile.php'; //Profile Deletion Script      
            break;    
+
+        case '/Scraper/api/log_out' :
+           require $BASE_URL.'Data_Handlers\\Account_Manager\\logout.php'; //Logging Out Script      
+           break;      
 
         //User Management (OTP Section)    
         case '/Scraper/api/check_alert' :
@@ -124,6 +128,9 @@
            require $BASE_URL.'Aunthentication\\otp_whatsapp.php'; //WhatsApp Message Sending Script (Password Changing and Profile Updating)
            break; 
 
+        //DB Data Talier And Difeerennce Notifier   
+        case '/Scraper/api/db_tally' :
+           require $BASE_URL.'Data_Handlers\\db_comparison.php'; //Hardware Before And After Comparison Script
 
         default:
            http_response_code(500);

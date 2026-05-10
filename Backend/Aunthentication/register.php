@@ -59,7 +59,7 @@ header("Access-Control-Allow-Credentials: true");
 
  if($femail === "" && $funame === ""){
     $hashpass = password_hash($pass, PASSWORD_BCRYPT);
-    $sql1 = "INSERT INTO users (fname, lname, email, pass, uname, telephone) VALUES ('$fname', '$lname', '$email', '$hashpass', '$uname', '$tel')";
+    $sql1 = "INSERT INTO users (fname, lname, email, pass, uname, telephone, last_time, last_ip) VALUES ('$fname', '$lname', '$email', '$hashpass', '$uname', '$tel', '0', '0')";
 
     $query1 = mysqli_query($conn, $sql1);
 

@@ -3,6 +3,8 @@ function OTPwhat(){
   var count = 0;
   var instance = "";
 
+  var data;
+
   var otp_check = "";
   var otp_wha = "";
   var otp = "";
@@ -314,7 +316,13 @@ function OTPwhat(){
                 });
                }
              };
-             var data = {tel: tel_no, trackers: tracker};
+
+             if(instance === "login"){
+               data = {tel: tel_no};
+             }else{
+               data = {tel: tel_no, trackers: tracker};
+             }
+
              var jsonData = JSON.stringify(data);
              logreq.send(jsonData);
 

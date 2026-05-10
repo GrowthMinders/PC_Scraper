@@ -40,7 +40,7 @@
 #section2{
    border:gray solid 1px;
    border-radius: 6px;
-   width: 98.5vw;
+   width: 98vw;
    margin-left: 1vw;
    height: 36vh;
    margin-top: 1.3vh;
@@ -99,6 +99,24 @@
    width: fit-content;
    padding: 8px 12px;
    color: rgb(0, 85, 0);
+}
+
+/* Pinger And Recommendation Engine Styles */
+#pinger_roled,
+#recommendation{
+   border: gray solid 1px;
+   border-radius: 6px;
+   width: 48.7vw;
+   height: 36vh;
+   margin-top: 1.3vh;
+}
+
+#pinger_roled{
+   margin-left: 1vw;
+}
+
+#section3{
+   gap: 0.5vw;
 }
 
 /* Footer */
