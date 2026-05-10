@@ -56,11 +56,16 @@ function profile(){
 
           </div>
          </div>`,
+        showDenyButton: true,            
+        denyButtonText: 'Delete Account',  
+        denyButtonColor: '#d33',        
+        confirmButtonText: 'OK',
     
         didOpen: () => {
           
             const edits = document.querySelectorAll(".editor");
             const btn = Swal.getConfirmButton();
+            const del_btn = Swal.getDenyButton();
 
             edits.forEach((icon) => {
               icon.addEventListener("click", function () {
@@ -139,7 +144,7 @@ function profile(){
                     ids = detail.id;
 
                     if(detail.tel !== tel){
-                      tracker = "email";
+                      tracker = "tel";
                       Swal.fire({
                         title: "Select OTP Mode",
                         input: "select",
@@ -152,7 +157,7 @@ function profile(){
                       });
 
                     }else if(detail.email !== email){
-                      tracker = "tel";
+                      tracker = "email";
                       Swal.fire({
                          title: "Select OTP Mode",
                         input: "select",
@@ -194,7 +199,74 @@ function profile(){
                profile_id_grab.send(session_authenticated);
              }
             }
-          });  
+          }); 
+          
+          
+          del_btn.addEventListener("click", function () {
+               origins = window.location.href + "2";
+
+               var grab_help = document.getElementById("uname").value;
+
+               var profile_id_grab = new XMLHttpRequest();
+               profile_id_grab.open("POST", "api/profile_update");
+               profile_id_grab.setRequestHeader("Content-Type", "application/json");
+    
+               profile_id_grab.onload = function () {
+                 if(profile_id_grab.status == 200){
+                    var del_data = JSON.parse(profile_id_grab.responseText);
+                    var detail = del_data[0];
+                    ids = detail.id;
+
+                    const del_message =
+                      "I Would Like To Delete My PC-Scraper Account";
+
+                    Swal.fire({
+                      title: "Account Deletion Process",
+                      input: "text",
+                      inputLabel: `To confirm account deletion, please type: "${del_message}"`,
+                      inputPlaceholder: "Type the exact sentence here",
+
+                      customClass: {
+                        inputLabel: "text-center",
+                      },
+
+                      showCancelButton: true,
+                      confirmButtonColor: "#e9101085",
+                      confirmButtonText: "Confirm Deletion",
+
+
+                    }).then((result) => {
+                       if (result.value) {
+                          if(result.value != "I Would Like To Delete My PC-Scraper Account"){
+                            Swal.fire({
+                              title: "Oops",
+                              text: "Account Deletion Failed!",
+                              icon: "info",
+                              confirmButtonColor: "#e9101085",
+                            }).then((result) => {
+                              Swal.close();
+                            });
+
+                          }else{
+                            OTPmail();
+                          }
+                       }
+                    });
+
+
+                 }else{
+                   Swal.fire({
+                    title: 'Oops',
+                    text: 'Unable To fetch User Right Now!',
+                    icon: 'error',
+                    confirmButtonColor: '#e9101085'
+                   }); 
+                 }
+               };
+               var datacount = {unames: grab_help};
+               var jsonDatacount = JSON.stringify(datacount);
+               profile_id_grab.send(jsonDatacount);
+          });
 
         },
       }); 
@@ -203,7 +275,7 @@ function profile(){
     }else if(profile_fetch.status == 401){
       Swal.fire({
         title: 'Profile',
-        text: 'Invali Request!',
+        text: 'Invalid Request!',
         icon: 'error',
         confirmButtonColor: '#e9101085'
       });

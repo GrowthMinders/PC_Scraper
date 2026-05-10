@@ -36,7 +36,7 @@ include_once "connection.php";
         $sql = "UPDATE users SET pass = '$hashed_pass' WHERE id = $ids ";
         $query = mysqli_query($conn, $sql);
 
-        if(mysqli_affected_rows($conn) > 0){
+        if($query === true){
           http_response_code(200);
         }else{
           http_response_code(400);

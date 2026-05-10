@@ -3,6 +3,8 @@ var new_pass = "";
 var cnew_pass = "";
 var ids_chg = "";
 
+var action_track = "";
+
 function change_password(){
    var session_authenticated = sessionStorage.getItem('loged');
 
@@ -40,6 +42,8 @@ function change_password(){
             cnew_pass = document.getElementById("confirm_new_pass").value;
 
             origins = window.location.href + "1";
+
+            action_track = "okay";
 
             const regexpass = /^[A-Za-z\d!~`#$%^&*-_+=<>,.|@]{8,30}$/;
 

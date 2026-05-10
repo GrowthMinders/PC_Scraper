@@ -3,12 +3,16 @@ function OTPmail(){
   var mail = "";
   var count = 0;
   var instance = "";
+  var action_track = "";
 
   var otp_check = "";
   var otp_mail = "";
   var otp = "";
   var otp_count = "";
   var otp_deactivate = "";
+
+  var params;
+  var data;
    
   if(origins === "http://localhost/Scraper/Frontend/HTML/login.html"){
     instance = "login";
@@ -20,15 +24,6 @@ function OTPmail(){
     otp_count = "api/count";
     otp_deactivate = "api/otp_deactivate";
   }else if(origins === "http://localhost/Scraper/index.html1"){
-    instance = "edit";
-
-    //API Paths Setting
-    otp_check = "api/check_alert";
-    otp_mail = "api/otp_mail_alert";
-    otp = "api/otp_alert";
-    otp_count = "api/count_alert";
-    otp_deactivate = "api/otp_deactivate_alert";
-  }else{
     instance = "change";
 
     //API Paths Setting
@@ -37,6 +32,20 @@ function OTPmail(){
     otp = "api/otp_alert";
     otp_count = "api/count_alert";
     otp_deactivate = "api/otp_deactivate_alert";
+  }else{ 
+    instance = "edit";
+
+    //API Paths Setting
+    otp_check = "api/check_alert";
+    otp_mail = "api/otp_mail_alert";
+    otp = "api/otp_alert";
+    otp_count = "api/count_alert";
+    otp_deactivate = "api/otp_deactivate_alert";
+  }
+
+  if(origins === "http://localhost/Scraper/index.html2"){
+    instance = "delete";
+    action_track = "delete";
   }
 
 
@@ -160,6 +169,48 @@ function OTPmail(){
                                      }),
                                    );
 
+                                 }else if(instance === "delete"){
+                                  Swal.fire({
+                                      title: "Success!",
+                                      text: "OTP Validated for " + mail + "!",
+                                      icon: "success",
+                                      confirmButtonText: "OK" 
+                                    }).then((result) => {
+                                      if (result.isConfirmed) {
+                                       function delete_push(){
+                                        var profile_delete = new XMLHttpRequest();
+                                        profile_delete.open("POST", "api/delete_profile");
+                                        profile_delete.setRequestHeader("Content-Type", "application/json");
+    
+                                        profile_delete.onload = function () {
+                                          if(profile_delete.status == 200){
+                                            Swal.fire({
+                                              title: 'Done',
+                                              text: 'Account Successfully Deleted',
+                                              icon: 'success',
+                                              confirmButtonColor: '#1ad4439c'
+                                            }).then((result) => {
+                                              window.location.href = "http://localhost/Scraper/Frontend/HTML/login.html";
+                                            });
+                                          }else{
+                                            Swal.fire({
+                                              title: 'Oops',
+                                              text: 'Unable to delete account at these moment',
+                                              icon: 'error',
+                                              confirmButtonColor: '#e9101085'
+                                            }); 
+                                          }  
+                                         };
+                                         var params = {user: ids};
+                                         var jsonparams = JSON.stringify(params);
+                                         profile_delete.send(jsonparams);
+                                        } 
+                                       delete_push();
+                                      }else{
+                                       delete_push();
+                                      }
+                                    });
+
                                  }else{
 
                                      Swal.fire({
@@ -170,6 +221,14 @@ function OTPmail(){
                                     }).then((result) => {
                                       if (result.isConfirmed) {
                                        function update_push(){
+                                         var target_update = tracker;
+
+                                         if(target_update === "email"){
+                                           params = {id:ids, email:email, trackers:target_update};
+                                         }else{
+                                           params = {id:ids, tel:tel, trackers:target_update};
+                                         }
+
                                         var profile_update = new XMLHttpRequest();
                                         profile_update.open("POST", "api/profile_update");
                                         profile_update.setRequestHeader("Content-Type", "application/json");
@@ -193,8 +252,6 @@ function OTPmail(){
                                             }); 
                                           }  
                                          };
-
-                                         var params = {id:ids, email:email, trackers:tracker};
                                          var jsonparams = JSON.stringify(params);
                                          profile_update.send(jsonparams);
                                         } 
@@ -311,7 +368,15 @@ function OTPmail(){
                 });
                }
              };
-             var data = {email: mail};
+
+             if(action_track != ""){
+               var data = {email: mail, tactic: action_track};
+             }else if(action_track == "" && instance != "login"){
+               var data = {email: mail, trackers: tracker};
+             }else{
+               var data = {email: mail};
+             }
+
              var jsonData = JSON.stringify(data);
              logreq.send(jsonData);
 

@@ -93,16 +93,25 @@ try {
     $client = new Client();
     $url = "https://api.httpsms.com/v1/messages/send";
 
+    if(isset($data['trackers'])){
+      $message = "Confirm Credential Update Request Using The Below Credential: $otpCode";
+    }else{
+      $message = "Login Using The Below Credential: $otpCode";
+    }
+
 $response = $client->post($url, [
     'headers' => [
         'x-api-key'    => $api,
         'Content-Type' => 'application/json',
         'Accept'       => 'application/json'
     ],
+    
+
+
     'json' => [
         'from'    => $phone,
         'to'      => $telephone,
-        'content' => "Login Using The Below Credential: $otpCode"
+        'content' => $message
     ],
     'http_errors' => true
 ]);

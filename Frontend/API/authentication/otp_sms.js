@@ -19,7 +19,7 @@ function OTPsms(){
     otp_count = "api/count";
     otp_deactivate = "api/otp_deactivate";
   }else if(origins === "http://localhost/Scraper/index.html1"){
-    instance = "edit";
+    instance = "change";
 
     //API Paths Setting
     otp_check = "api/check_alert";
@@ -28,7 +28,7 @@ function OTPsms(){
     otp_count = "api/count_alert";
     otp_deactivate = "api/otp_deactivate_alert";
   }else{
-    instance = "change";
+    instance = "edit";
 
     //API Paths Setting
     otp_check = "api/check_alert";
@@ -56,6 +56,7 @@ function OTPsms(){
         mailchekcer.setRequestHeader("Content-Type", "application/json");
         mailchekcer.onload = function () {
           if(mailchekcer.status == 200) {
+               
                tel_no = '+94' + tel_no.replace(/^0/, '');
                Swal.fire({
                  title: 'Sending OTP...',
@@ -169,6 +170,15 @@ function OTPsms(){
                                     }).then((result) => {
                                       if (result.isConfirmed) {
                                        function update_push(){
+                                         var target_update = tracker;
+
+                                         if(target_update === "email"){
+                                           var params = {id:ids, email:email, trackers:target_update};
+
+                                         }else{
+                                           var params = {id:ids, tel:tel, trackers:target_update};
+                                         }
+
                                         var profile_update = new XMLHttpRequest();
                                         profile_update.open("POST", "api/profile_update");
                                         profile_update.setRequestHeader("Content-Type", "application/json");
@@ -193,7 +203,6 @@ function OTPsms(){
                                           }  
                                          };
 
-                                         var params = {id:ids, tel:tel_no, trackers:tracker};
                                          var jsonparams = JSON.stringify(params);
                                          profile_update.send(jsonparams);
                                         } 
@@ -311,7 +320,7 @@ function OTPsms(){
                 });
                }
              };
-             var data = {tel: tel_no};
+             var data = {tel: tel_no, trackers: tracker};
              var jsonData = JSON.stringify(data);
              logreq.send(jsonData);
 

@@ -91,6 +91,10 @@
            require $BASE_URL.'Data_Handlers\\Account_Manager\\change_password.php'; //User Password Changing 
            break; 
 
+        case '/Scraper/api/delete_profile' :
+           require $BASE_URL.'Data_Handlers\\Account_Manager\\delete_profile.php'; //Profile Deletion Script 
+           break;    
+
         //User Management (OTP Section)    
         case '/Scraper/api/check_alert' :
            require $BASE_URL.'Aunthentication\\auth_checkers\\detail_check.php'; //Email Address, Whatsapp Number, SMS Number Checker (Password Changing and Profile Updating)

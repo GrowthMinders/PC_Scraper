@@ -25,6 +25,8 @@ $data = json_decode($json, true);
 
 $email = $data['email'];
 
+$message = "";
+
 // Check if the email is empty
 if (empty($email)) {
     error_log('Email Empty'); // Log the error
@@ -46,6 +48,16 @@ $query2 = mysqli_query($conn, $sql2);
     $name = $row2['fname'] . ' ' . $row2['lname'];
   }
 
+
+    if(isset($data['trackers'])){
+      $message = "Confirm Credential Update Request to approve the changes";
+    }else if((!isset($data['trackers'])) && (isset($data['tactic'])) && $data['tactic'] != "delete"){
+      $message = "Confirm It's you, Since we received a password change request";
+    }else if((!isset($data['trackers'])) && (isset($data['tactic'])) && $data['tactic'] === "delete"){
+      $message = "Confirm It's you, Since we received a an account deletion request";
+    }else{
+      $message = "Please use the one time password below to authorize your account";
+    }
 
 // HTML content for the invoice
 $invoiceHTML = <<<HTML
@@ -154,7 +166,7 @@ $invoiceHTML = <<<HTML
         <div class="content">
             <p>Dear {$name},</p>
             
-            <p>Please use the one time password below to authorize your account</p>
+            <p>{$message}</p>
             <p>Use these OTP code to log in to the account. This OTP will expire in 30 minutes.</p>
             
             <div class="otp-display">

@@ -11,6 +11,8 @@ $data = json_decode($json, true);
 $telephone1 = $data['tel'];
 $telephone = "+94" . ltrim($telephone1, "0");
 
+$message = "";
+
 date_default_timezone_set('Asia/Colombo');
 
 $uid = 0;
@@ -38,9 +40,13 @@ $sql1 = "INSERT INTO otp_codes (otp, track, expires_at, attempts, uid, state) VA
 
 $query1 = mysqli_query($conn, $sql1);
 
-
 if($query1 == true){
-  $message = "Your OTP is: " . $otpCode;
+
+    if(isset($data['trackers'])){
+      $message = "Confirm Credential Update Request Using The Below Credential: $otpCode";
+    }else{
+      $message = "Login Using The Below Credential: $otpCode";
+    }
 
   // 1. Path to npx (Ensure this is correct for your PC)
   $npxPath = "C:\\Program Files\\nodejs\\npx.cmd"; 

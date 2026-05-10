@@ -7,55 +7,87 @@ header("Access-Control-Allow-Credentials: true");
 
 include_once "connection.php";
 
-$bd_details = [];
+$db_details = []; // Fixed typo from $bd_details
+$id = 0;
 
-  //To Use JWT Tokens
   require_once __DIR__ . '/../../../vendor/autoload.php';
   use Firebase\JWT\JWT;
   use Firebase\JWT\Key;
 
-  //Environment Variable File 
   $envPath = __DIR__ . '/../../../.env'; 
 
   $json = file_get_contents('php://input');
-
   $data = json_decode($json, true);
+
+  $ids = 0;
+  if(isset($data['id'])){
+     $ids = (int)$data['id'];
+  }
 
   if(isset($data['trackers'])){
     if($data['trackers'] === "email"){
-      $ids = $data['id'];
+      
       $email = $data['email'];
       
       $sql = "UPDATE users SET email = '$email' WHERE id = $ids ";
       $query = mysqli_query($conn, $sql);
 
-      if(mysqli_affected_rows($conn) > 0){
+      if($query){
         http_response_code(200);
+      }else{
+        http_response_code(500); // Added status code for clarity
+        echo json_encode([
+          "status" => "error",
+          "error_info" => mysqli_error($conn),
+          "sql_executed" => $sql
+       ]);
       }
+
     }else{
       $tel = $data['tel'];
 
       $sql = "UPDATE users SET telephone = '$tel' WHERE id = $ids ";
       $query = mysqli_query($conn, $sql);
 
-      if(mysqli_affected_rows($conn) > 0){
+      if($query === true){
         http_response_code(200);
+      }else{
+        http_response_code(500);
+        echo json_encode([
+          "status" => "error",
+          "error_info" => mysqli_error($conn),
+          "sql_executed" => $sql
+       ]);
       }
     }
     
+  } else if((!isset($data['trackers'])) && (isset($data['unames']))){
+     $user = $data['unames'];
+     
+     $sql = "SELECT id, email FROM users WHERE uname = '$user' ";
+     $query = mysqli_query($conn, $sql);
+
+      while($row = mysqli_fetch_assoc($query)){
+        $db_details[] = [
+          "id" => $row["id"]
+        ];
+      }
+
+       http_response_code(200);
+       echo json_encode($db_details);
+
   }else{
-    $stored_session = file_get_contents('php://input');
+
+    $stored_session = $json; 
 
     if (file_exists($envPath)) {
       $env = parse_ini_file($envPath);
-      define('JWT_SECRET_KEY', $env['JWT_SECRET_KEY']);
+      if(!defined('JWT_SECRET_KEY')) define('JWT_SECRET_KEY', $env['JWT_SECRET_KEY']);
     }
 
     $secret_key = base64_decode(JWT_SECRET_KEY);
-
     $userId = 0;
 
-    //Extracting The Logged In Users Session From The JWT Token
     try {
        $decoded = JWT::decode($stored_session, new Key($secret_key, 'HS512'));
        $userId = $decoded->uid;
@@ -64,7 +96,7 @@ $bd_details = [];
          $query = mysqli_query($conn, $sql);
 
          while($row = mysqli_fetch_assoc($query)){
-           $db_details [] = [
+           $db_details[] = [
              "email" => $row["email"],
              "tel" => $row["telephone"],
              "id" => $userId
