@@ -21,17 +21,96 @@
 
   $data = json_decode($json, true);
 
-  if(isset($data['reason'])){
-    //
-    $id = $data['session'];
-    $ip = $data['ip'];
-    $date_time = $data['stamp'];
+  $hard_detail = 0;
+  $soft_detail = 0;
+  $inequality = 0;
 
-    $sql1 = "UPDATE users SET last_time = '$date_time', last_ip = '$ip' WHERE id = $id ";
+  if(isset($data['reason'])){
+    //Getting User ID
+    $id = $data['session'];
+
+    //Getting Hardware Live Data
+    $cpu = $data['hard1'];
+    $ram = $data['hard2'];
+    $int_gpu = $data['hard4'];
+    $ext_gpu = $data['hard3'];
+
+    ////Getting OS Related Live Data
+    $device = $data['soft1'];
+    $win_version = $data['soft2'];
+    $build_version = $data['soft3'];
+    $last_up = $data['soft4'];
+    $license_pro = $data['soft5'];
+    $activation = $data['soft6'];
+
+
+    //Getting Storage Media Data
+    $live_storage = $data['hard5'];
+
+    //Comparing Hardware Records 
+    $sql1 = "SELECT * FROM hardware_detail WHERE uid = $id ";
 
     $query1 = mysqli_query($conn, $sql1);
 
-    if($query1 == true){
+    while($row1 = mysqli_fetch_assoc($query1)){
+        if($cpu !== $row1['cpu']){
+          $inequality++;
+        }     
+        if($ram !== $row1['ram']){
+          $inequality++;
+        }     
+        if($int_gpu !== $row1['int_gpu']){
+          $inequality++;
+        } 
+        if($ext_gpu !== $row1['ext_gpu']){
+          $inequality++;
+        } 
+
+        preg_match_all('/Storage \d+: (.*?)(?=Storage \d+:|$)/', $row1['storages'], $db_drives); 
+        $db_storage_list = $db_drives[1];
+
+        preg_match_all('/Storage \d+: (.*?)(?=Storage \d+:|$)/', $live_storage, $drives);
+        $media = $drives[1];
+
+        if($db_storage_list !== $media){
+          $inequality++;
+        }
+
+      $hard_detail++;
+    }
+
+
+    //Comparing OS Records
+    $sql2 = "SELECT * FROM software_detail WHERE uid = $id ";
+
+    $query2 = mysqli_query($conn, $sql2);
+
+    while($row2 = mysqli_fetch_assoc($query2)){
+        if($device !== $row2['device_name']){
+          $inequality++;
+        }
+        if($win_version !== $row2['win_version']){
+          $inequality++;
+        }     
+        if($build_version !== $row2['build_version']){
+          $inequality++;
+        }     
+        if($last_up !== $row2['last_up']){
+          $inequality++;
+        } 
+        if($license_pro !== $row2['license']){
+          $inequality++;
+        } 
+        if($activation !== $row2['activation']){
+          $inequality++;
+        } 
+
+      $soft_detail++;
+    }
+
+      echo json_encode("Software Details Loaded: ". $soft_detail ." Software Details Loaded: ". $hard_detail);
+
+    if($soft_detail > 0 && $hard_detail > 0){
       http_response_code(200);
     }else{
       http_response_code(404);
@@ -60,7 +139,7 @@
 
       $query = mysqli_query($conn, $sql);
 
-      if($row = mysqli_fetch_assoc($query)){
+      while($row = mysqli_fetch_assoc($query)){
          $track [] = [
            "ip" => $row['last_ip'],
            "time" => $row['last_time'],
@@ -68,6 +147,7 @@
          ];
       }  
       
+      echo json_encode($track);
       http_response_code(200);
 
     } catch (Exception $e) {

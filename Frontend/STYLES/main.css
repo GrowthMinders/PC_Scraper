@@ -260,3 +260,65 @@
 .pass{
    margin-top: 2vh;
 }
+
+/* Splash Screen Styles */
+#loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+
+.loader-content {
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0px #38bdf8; }
+    50% { transform: scale(1.05); opacity: 0.7; box-shadow: 0 0 15px #38bdf8; }
+    100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0px #38bdf8; }
+}
+
+/* Rotating Loader Styles */
+.spinner {
+    width: 6vh;
+    height: 6vh;
+    margin: 5vh auto 25px;
+    border-radius: 70%;
+    /* Creates the "fade" trail effect */
+    background: radial-gradient(farthest-side, #38bdf8 94%, #0000) top/6px 6px no-repeat,
+                conic-gradient(#0000 30%, #38bdf8);
+    /* Creates the hole in the middle */
+    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 6px), #000 0);
+    
+    animation: rotate 2s infinite linear;
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(1turn);
+    }
+}
+
+.loading-text {
+    color: #38bdf8;
+    letter-spacing: 2px;
+    font-size: 2.1rem;
+    font-weight: bolder;
+    text-transform: uppercase;
+    margin-top: 2vh;
+}
+
+.status-msg {
+    color: #64748b;
+    font-size: 1rem;
+    margin-top: 10px;
+    font-family: 'Courier New', monospace;
+}

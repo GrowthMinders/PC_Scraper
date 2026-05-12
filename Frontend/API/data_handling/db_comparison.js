@@ -27,7 +27,7 @@ first_time_detect.onload = function () {
 
     cause = "grab_data";
     
-    if(instance.ip != 0 && instance.time != 0){
+    if(instance.ip != "0" && instance.time != "0"){
       
       var change_notifier = new XMLHttpRequest();
       change_notifier.open("POST", "api/db_tally");
@@ -35,11 +35,23 @@ first_time_detect.onload = function () {
     
       change_notifier.onload = function () {
         if(change_notifier.status == 200) {
-          //Start From Here
+          Swal.fire({
+            title: "Details Found",
+            text: "All records were compared",
+            icon: "success",
+            confirmButtonColor: "#10e92280",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.close();
+            } else {
+              Swal.close();
+            }
+          });
+
         } else {
           Swal.fire({
             title: "Hardware Changes Detecting",
-            text: "Currently We Are To Fetch Hardware Chnages!",
+            text: "Currently We Are Unable To Fetch Hardware Chnages!",
             icon: "error",
             confirmButtonColor: "#e9101085",
           }).then((result) => {

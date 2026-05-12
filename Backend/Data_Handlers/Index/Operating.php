@@ -9,6 +9,10 @@ header("Content-Type: application/json");
 $soft = [];
 $i = 0;
 
+$device = "";
+$win = "";
+$build = "";
+
 try {
     $object_wmi = new COM("winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2");
 
@@ -28,6 +32,7 @@ try {
             if ($ts > $lastUpdateTimestamp) {
                 $lastUpdateTimestamp = $ts;
                 $actualUpdateDate = date("d-m-Y", $ts);
+                
             }
         }
     }
@@ -54,6 +59,10 @@ try {
     //Getting Device Name, OS Version, Built Version, OS Version 
     $os = $object_wmi->ExecQuery("SELECT * FROM Win32_OperatingSystem");
     foreach ($os as $OS) {
+        $device = $OS->CSName;
+        $win = $OS->Caption;
+        $build = $OS->Version;
+
         $soft[] = [
             "device_name"     => (string)$OS->CSName,
             "windows_version" => (string)$OS->Caption,
@@ -77,4 +86,5 @@ try {
     http_response_code(500);
     echo json_encode(["error" => $e->getMessage()]);
 }
+
 ?>

@@ -132,6 +132,10 @@
         case '/Scraper/api/db_tally' :
            require $BASE_URL.'Data_Handlers\\db_comparison.php'; //Hardware Before And After Comparison Script
 
+        case '/Scraper/Frontend/HTML/api/initial_setup' :
+           require $BASE_URL.'Data_Handlers\\initial_login_setup.php'; //Initial Login User Device Data Colletion Script  
+       
+
         default:
            http_response_code(500);
         break;

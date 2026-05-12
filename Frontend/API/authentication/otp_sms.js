@@ -115,12 +115,16 @@ function OTPsms(){
                                         //JWT Token
                                         var session = JSON.parse(logreq.responseText); 
                                         sessionStorage.setItem("loged", session.token);
-                                        window.location.href = "http://localhost/Scraper/index.html";
+
+                                        //Redirect To Splash Screen
+                                        window.location.href = "http://localhost/Scraper/Frontend/HTML/splash.html";
                                       }else{
                                         //JWT Token
                                         var session = JSON.parse(logreq.responseText); 
                                         sessionStorage.setItem("loged", session.token);
-                                        window.location.href = "http://localhost/Scraper/index.html";
+
+                                        //Redirect To Splash Screen
+                                        window.location.href = "http://localhost/Scraper/Frontend/HTML/splash.html";
                                       }
                                     });
 
