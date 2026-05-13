@@ -20,6 +20,8 @@ window.valid = function() {
                profile();
              }else if(caller === "chg_pass"){
                change_password();
+             }else if(caller === "export"){
+               reporter();  
              }else{
                log_out();
              }
@@ -44,7 +46,7 @@ window.valid = function() {
 
 document.addEventListener('click', function (e) {
     caller = e.target.id;
-    if ((e.target && e.target.id === 'prof') || (e.target && e.target.id === 'chg_pass') || (e.target && e.target.id === 'log')) {
+    if ((e.target && e.target.id === 'prof') || (e.target && e.target.id === 'chg_pass') || (e.target && e.target.id === 'log') || (e.target && e.target.id === 'export')) {
         window.valid();
     }
 });

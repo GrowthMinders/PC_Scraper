@@ -5,12 +5,15 @@ header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Credentials: true");
 
-  include_once "connection.php";
+  ob_start();
 
-  //Including The Files Which rReturns The Hardware And OS Details
+  include_once "connection.php";
+  include_once "Backend/Data_Handlers/Index/Network.php";
+
+  //Including The Files Which Returns The Hardware And OS Details
   $output1 = file_get_contents("http://localhost/Scraper/Backend/Data_Handlers/Index/Operating.php");
   $output2 = file_get_contents("http://localhost/Scraper/Backend/Data_Handlers/Index/Hardware_stats.php");
-  $output3 = file_get_contents("http://localhost/Scraper/Backend/Data_Handlers/Index/Network.php");
+  $output3 = ob_get_clean(); 
 
   $value = json_decode($output1, true);
   $value1 = json_decode($output2, true);
@@ -21,12 +24,13 @@ header("Access-Control-Allow-Credentials: true");
 
   $userId = 0;
   $okay = 0;
+  $ip = "";
 
-  require_once __DIR__ . '/../../../vendor/autoload.php';
+  require_once __DIR__ . '/../../vendor/autoload.php';
   use Firebase\JWT\JWT;
   use Firebase\JWT\Key;
 
-  $envPath = __DIR__ . '/../../../.env'; 
+  $envPath = __DIR__ . '/../../.env'; 
 
   $json = file_get_contents('php://input');
 
@@ -34,7 +38,7 @@ header("Access-Control-Allow-Credentials: true");
 
     if (file_exists($envPath)) {
       $env = parse_ini_file($envPath);
-      if(!defined('JWT_SECRET_KEY')) define('JWT_SECRET_KEY', $env['JWT_SECRET_KEY']);
+      define('JWT_SECRET_KEY', $env['JWT_SECRET_KEY']);
     }
 
     $secret_key = base64_decode(JWT_SECRET_KEY);
@@ -59,30 +63,46 @@ header("Access-Control-Allow-Credentials: true");
     }
 
 
+    function get_physical_lan_ipv4() {
+      $socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
+    
+      // Connect to a public IP to force the OS to pick the active physical gateway
+      @socket_connect($socket, "8.8.8.8", 53);
+      socket_getsockname($socket, $physical_ip);
+      socket_close($socket);
+    
+      return $physical_ip ?? '127.0.0.1';
+    }
 
-      function insert_details(){
-         global $conn, $value2, $userId;
 
-         //IP Adderess
-         $detail1 = $value2[0];
+    
 
-         $datezone = new DateTime("now", new DateTimeZone('Asia/Colombo'));
-         $date = $datezone->format('d/m/Y');
-         $time = $datezone->format('h:i:s A');
+    function insert_details(){
+       global $conn, $ip, $userId;
 
-         $sql3 = "UPDATE users SET last_time = '$date .'-'. $time' last_ip = '{$detail1['ip']}'  WHERE id = $userId ";
-         $query3 = mysqli_query($conn, $sql3);
+       $ip = get_physical_lan_ipv4();
 
-      }
+       $datezone = new DateTime("now", new DateTimeZone('Asia/Colombo'));
+       $date = $datezone->format('d/m/Y');
+       $time = $datezone->format('h:i:s A');
+       $datetime = $date . '-' . $time;
+
+       $sql3 = "UPDATE users SET last_time = '$datetime', last_ip = '$ip' WHERE id = $userId";
+
+       $query3 = mysqli_query($conn, $sql3);
+    }
+
 
 
 
     if($userId != 0 && $okay == 0){
       //Hardware Details
       $detail = $value[0];
+
+      $storage_media = implode(",", $storage_info);
             
       //Tracking Last Logged Hardware 
-      $sql1 = "INSERT INTO hardware_detail (cpu, ram, int_gpu, ext_gpu, storages, uid) VALUES ('$hardware_names[0]', '$hardware_names[3]', '$hardware_names[1]', '$hardware_names[2]', '$hardware_names[0]', $userId)";
+      $sql1 = "INSERT INTO hardware_detail (cpu, ram, int_gpu, ext_gpu, storages, uid) VALUES ('$hardware_names[0]', '$hardware_names[3]', '$hardware_names[2]', '$hardware_names[1]', '$storage_media', $userId)";
 
       $query1 = mysqli_query($conn, $sql1);
 

@@ -10,12 +10,12 @@
   $track = [];
 
   //To Use JWT Tokens
-  require_once __DIR__ . '/../../../vendor/autoload.php';
+  require_once __DIR__ . '/../../vendor/autoload.php';
   use Firebase\JWT\JWT;
   use Firebase\JWT\Key;
 
   //Environment Variable File 
-  $envPath = __DIR__ . '/../../../.env'; 
+  $envPath = __DIR__ . '/../../.env'; 
 
   $json = file_get_contents('php://input');
 

@@ -9,6 +9,8 @@ function log_out(){
         confirmButtonText: "Yes, logout!"
     }).then((result) => {
         if (result.isConfirmed) {
+          sessionStorage.removeItem('loged');
+          
           Swal.fire({
             title: "Logged Out!",
             text: "Redirecting to login page...",

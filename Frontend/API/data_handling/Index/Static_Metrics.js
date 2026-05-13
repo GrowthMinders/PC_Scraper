@@ -56,7 +56,7 @@ function ram_data() {
 }
 ram_data();
 
-//GPU Metrics
+//GPU Metrics - Renders to live_spec_main1
 function gpu_data() {
     var gpu_fix = new XMLHttpRequest();
     gpu_fix.open("POST", "api/hard_stat");
@@ -65,41 +65,51 @@ function gpu_data() {
     gpu_fix.onload = function () {
         if (gpu_fix.status === 200) {
             var data = JSON.parse(gpu_fix.responseText);
-
             var gpuList = data[0];
 
-            var main_div = document.getElementById("live_spec_main");
+            // Use the NEW GPU-specific container
+            var main_div = document.getElementById("live_spec_main1");
+            
+            // Clear existing GPU blocks to prevent duplicates
+            main_div.innerHTML = '';
 
             for (var i = 0; i < gpuList.length; i++) {
                 var currentGPU = gpuList[i];
 
+                // Create single proper GPU block (no nesting)
                 var gpu_div = document.createElement("div");
+                gpu_div.id = `gpu-block-${i+1}`;
+                gpu_div.className = "info_block flex-fill p-3";
 
-                gpu_div.id = `${currentGPU.name}`;
-                gpu_div.className = `info_block`; 
-
-                //Chart Creation
+                // Clean, proper HTML structure
                 gpu_div.innerHTML = `
-                   <center><h6 id="sub-head-section2">Graphic Processing Unit ${i+1}</h6></center> 
-                   <div id="chart${i+4}" class="chart">
-                      <canvas id="gpuLoad${i+1}"></canvas>
-                   </div>
-                   <div id="gpu${i+4}" class="detailers">
-                      <span id="gpu-name"><strong>GPU ${i+1} Name: </strong>${currentGPU.name}</span><br>
-                      <span id="gpu-load${i+1}">  </span><br>
-                      <span id="gpu-driver"><strong>Driver Version: </strong>Driver: ${currentGPU.driver}</span><br>
-                      <span id="gpu-direct"><strong>DirectX: </strong>${currentGPU.directx}</span><br>
-                   </div>
+                    <h6 class="text-center fw-bold mb-3">Graphics Processing Unit ${i+1}</h6>
+                    
+                    <div class="chart canvas-container mb-3">
+                        <canvas id="gpuLoad${i+1}"></canvas>
+                    </div>
+                    
+                    <div class="detailers px-2">
+                        <span><strong>${currentGPU.name}</strong></span><br>
+                        <span id="gpu-load${i+1}"></span><br>
+                        <span><strong>Driver:</strong> ${currentGPU.driver}</span><br>
+                        <span><strong>DirectX:</strong> ${currentGPU.directx}</span><br>
+                    </div>
                 `;
 
                 main_div.appendChild(gpu_div);
+            }
 
+            // Initialize GPU charts after DOM update
+            if (typeof initializeGPUCharts === 'function') {
+                initializeGPUCharts(gpuList.length);
             }
         }
     };
 
-    var params = {hardware:"gpu"};
+    var params = {hardware: "gpu"};
     var jsonparams = JSON.stringify(params);
     gpu_fix.send(jsonparams);
 }
+
 gpu_data();

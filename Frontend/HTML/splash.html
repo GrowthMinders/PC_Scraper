@@ -4,29 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../ASSETS/favicon.ico">
-    <link href="../STYLES/main.css" rel="stylesheet">
+    <!-- Boostrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <!-- Sweet Alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>PC Sraper</title>
+    <link href="../STYLES/main.css" rel="stylesheet">
+    <title>PC Scraper</title>
 </head>
-<body>
-  <center><div id="brand_panel">
-    
-  </div></center>
+<body class="bg-light">
 
-  <!-- Loading Overlay -->
-<div id="loader-wrapper">
-    <div class="loader-content">
-        <div>
-            <div class="screen"><img src="../ASSETS/Logo.png" alt="Logo"></div>
-            <div class="base"></div>
+   
+    <div id="loader-wrapper" class="bg-dark">
+        <div class="loader-content container p-3">
+            
+           
+            <div class="d-flex flex-column align-items-center mb-4">
+                
+                <div class="screen d-flex align-items-center justify-content-center p-4 rounded-4 shadow bg-white" style="width: 100%; max-width: 400px; aspect-ratio: 4 / 3;">
+               
+                    <img src="../ASSETS/Logo.png" alt="PC Scraper Logo" class="img-fluid" style="max-height: 220px; object-fit: contain;">
+                </div>
+             
+                <div class="base" style="width: 60px; height: 30px; background-color: #495057;"></div>
+                <div class="base-foot" style="width: 180px; height: 12px; background-color: #343a40; border-radius: 6px 6px 0 0;"></div>
+            </div>
+            
+            <div class="loading-text">
+                INITIALIZING PC SCRAPER<span>....</span>
+            </div>
+            
+            <div class="spinner"></div>
+            
+            <p id="status-msg" class="m-0">Initializing Services</p>
+            
         </div>
-        <div class="loading-text">INITIALIZING PC SCRAPER<span>....</span></div>
-        <div class="spinner"></div>
-        <p class="status-msg"></p>
-        
     </div>
-</div>
 
-<script src="../API/data_handling/initial_login_setup.js"></script>
+    <!-- Script Related To First Time User Account Setting -->
+    <script src="../API/data_handling/initial_login_setup.js"></script>
 </body>
 </html>

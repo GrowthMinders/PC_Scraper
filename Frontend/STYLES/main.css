@@ -1,264 +1,312 @@
-/*Index Page*/
-/*The Top Most Banner With Health Score And Date*/
-#health_banner{
-  justify-content: space-between;
-  padding: 15px 25px
+:root {
+   --brand-green-bg: #73b373;
+   --brand-green-border: #529652;
+   --input-placeholder: #529652;
 }
 
-#profilers{
-  margin-right: 1.5vw;
+/* Dashboard */
+/* ==========================================================================
+   PC Scraper Dashboard - Final Production Stylesheet
+   ========================================================================== */
+
+/* --- General & Body Setup --- */
+body {
+   background-color: #f8f9fa;
+   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
-#header_left{
-  gap: 2vw;
+/* --- Top Most Header Navigation Settings --- */
+#health_banner {
+  padding: 15px 25px;
+  background-color: #ffffff;
 }
 
-.pop-option{
+#header_left {
+  gap: 2rem;
+}
+
+#profilers {
+  transition: opacity 0.2s ease;
+}
+
+#profilers:hover {
+  opacity: 0.85;
+}
+
+.profile-avatar {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border: 2px solid #dee2e6;
+}
+
+/* --- Dropdown Menu Item Styling Rules (Bootstrap Popover Hook) --- */
+.pop-option {
    text-decoration: none;
-   color: black;
+   color: #212529;
    display: block;
    padding: 8px 12px;
+   font-family: inherit;
+   font-size: 0.9rem;
+   border-radius: 4px;
+   transition: background-color 0.15s ease;
 }
 
-#prof:hover,
-#chg_pass:hover,
-#log:hover{
+.pop-option:hover {
    background-color: rgba(75, 74, 74, 0.075);
+   color: #000000;
    cursor: pointer;
 }
 
-/*Main div Stylling*/
-#profiler,
-#os-detailer,
-#pinger{
-   height: 42vh;
-   border:gray solid 1px;
-   width: 33vw;
-   border-radius: 6px; 
+/* --- Card Block Element Structures --- */
+#card_headers {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #343a40;
 }
 
-#section2{
-   border:gray solid 1px;
-   border-radius: 6px;
-   width: 98vw;
-   margin-left: 1vw;
-   height: 36vh;
-   margin-top: 1.3vh;
+#sub-head-section2 {
+  color: #495057;
+  font-size: 0.95rem;
 }
 
-/*Script Loaded Data Style*/
-#profiler, span,
-#os-detailer, span,
-#pinger, span{
+/* --- Information Card Top Images (Scaled to 175px) --- */
+.img-container-fixed {
+  height: 185px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.large-thumb {
+  height: 175px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.stats-box span {
+   margin-left: 0;
+   display: inline-block;
+   padding-top: 4px;
+   font-size: 0.95rem;
+   color: #495057;
+}
+
+/* --- Live Metrics Detail Text Layouts --- */
+.detailers span {
    margin-left: 12px;
+   display: inline-block;
+   padding-top: 4px;
+   font-size: 0.95rem;
+   color: #495057;
 }
 
-/*Heading For Each Component*/
-#card_headers{ 
-   border: none;
-   border-bottom: gray solid 1px;
-   border-right: gray solid 1px;
-   border-radius: 6px;
-   width: fit-content;
-   padding: 5px 10px;
-   color: rgb(0, 85, 0);
+.min-h-200 {
+  min-height: 200px;
 }
 
-/*PC Scraper Logo*/
-#win_logo,
-#brand-logo,
-#isp_logo{
-   height: 19vh;
-   width: 12vw;
-   object-fit: cover;
-   margin-bottom: 8px;
+/* --- Live Metrics Area: Master Layout Elements with Shared Borders --- */
+#live_spec_main .info_block,
+#live_gpu_row .info_block,
+#live_spec_main1 .info_block{
+  background-color: #f8f9fa;
+  border: #dee2e6 solid 1px;
+  border-radius: 8px;
+  min-width: 280px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Chart Styles */
-.chart{
-   width: 18vw; 
-   height: 20vh;
-   padding: 10px;
-   font-weight: bold;
+#live_spec_main .info_block:hover,
+#live_spec_main1 .info_block:hover,
+#live_gpu_row .info_block:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
 }
 
-.detailers{
-   margin-left: 2vw;
-   margin-top: 0.4vh;
+/* Forces each GPU node card to capture exactly 50% width on desktop rows */
+#live_gpu_row .info_block {
+  flex: 1 1 calc(50% - 1rem);
+  max-width: calc(50% - 0.5rem);
 }
 
-.info_block{
-   padding: 10px;
-   margin-right:1vw;
+/* Fluid responsive stacking fallback rules for smaller displays */
+@media (max-width: 991.98px) {
+  #live_gpu_row {
+    flex-direction: column !important;
+  }
+  #live_gpu_row .info_block {
+    max-width: 100% !important;
+    width: 100%;
+  }
 }
 
-#sub-head-section2{
-   border: gray solid 2px;
-   border-top-left-radius: 8px;
-   border-bottom-right-radius: 8px;
-   width: fit-content;
-   padding: 8px 12px;
-   color: rgb(0, 85, 0);
+/* --- Chart Canvases Sizing Lock Engine --- */
+.canvas-container {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  max-height: 160px;
 }
 
-/* Pinger And Recommendation Engine Styles */
-#pinger_roled,
-#recommendation{
-   border: gray solid 1px;
-   border-radius: 6px;
-   width: 48.7vw;
-   height: 36vh;
-   margin-top: 1.3vh;
+
+.stats-box {
+   display: flex;
+   flex-direction: column;
+   line-height: 1vh;
+   width: 100%;
 }
 
-#pinger_roled{
-   margin-left: 1vw;
+.detailers span {
+   display: flex;
+   line-height: 1vh;
+   gap: 4px;
+   align-items: center;
+   justify-content: center; 
+   text-align: center;
+   width: 100%;
 }
-
-#section3{
-   gap: 0.5vw;
-}
-
-/* Footer */
-#brand {
-   margin-left: 24px;
-   left: 0;           
-   width: 100%;      
-   background-color: white;
-   z-index: 1000; 
-   font-size: 25px;
-   font-weight: bold;
-}
-
 
 /*Login Page*/
-#brand_panel{
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content:end; 
-   height: 40vh;
+.main-logo {
+   max-height: 240px;
+   width: auto;
 }
 
-#login_panel{
-   margin-top: 4vh;
-   border: green solid 4px;
-   height: 35vh;
-   width: 20vw;
-   border-radius: 19px;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   gap: 2vh;
-   background-color: rgba(71, 158, 71, 0.815);
+#login_panel {
+   background-color: var(--brand-green-bg);
+   border: var(--brand-green-border) solid 4px;
+   border-radius: 20px;
+   width: 100%;
+   max-width: 380px;
+   box-sizing: border-box;
 }
 
-#login_panel input{
-   width: 56%;
-   padding: 10px;
-   border: gray solid 1px;
-   border: green solid 4px;
+#login_panel .form-control {
+   width: 100% !important;
+   padding: 12px 16px;
+   border: none;
    border-radius: 8px;
+   background-color: #ffffff;
+   font-size: 1rem;
+   color: #333333;
 }
 
-#login_panel a{
-   align-self:flex-start;
-   margin-left: 21%;
+#login_panel .form-control::placeholder {
+   color: var(--input-placeholder);
+   font-weight: bold;
+   font-family: 'Times New Roman', Times, serif;
+   font-size: 1.15rem;
+   opacity: 0.85;
+}
+
+#login_panel .form-control:focus {
+   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+   outline: none;
+}
+
+.forgot-link {
    text-decoration: none;
-   color: black;
-   margin-bottom: -1vh;
-   margin-top: -1vh;
-}
-
-#log_btn{
-   width: 60%;
-   padding: 10px;
-   border: green solid 4px;
-   border-radius: 8px;
+   color: #111111;
    font-weight: bold;
+   font-size: 0.95rem;
+   display: inline-block;
 }
 
-#login_panel a:hover{
-   cursor: pointer;
+.forgot-link:hover {
+   color: #ffffff;
+   text-decoration: underline;
 }
 
-#login_panel input::placeholder{
-   color: rgba(71, 158, 71, 0.815);
+#log_btn {
+   background-color: #ffffff;
+   color: var(--brand-green-border);
+   border: none;
+   padding: 12px;
+   font-size: 1.1rem;
+   border-radius: 8px;
+   transition: all 0.2s ease-in-out;
+}
+
+#log_btn:hover {
+   background-color: #111111;
+   color: #ffffff;
+}
+
+#company-logo {
+   max-height: 50px;
+   width: auto;
+   display: inline-block;
+}
+
+/* Registration Styles*/
+#register_panel {
+   background-color: var(--brand-green-bg);
+   border: var(--brand-green-border) solid 4px;
+   border-radius: 20px;
+   width: 100%;
+   max-width: 600px;
+   box-sizing: border-box;
+}
+
+#register_panel .form-control {
+   padding: 12px 16px;
+   border: none;
+   border-radius: 8px;
+   background-color: #ffffff;
+   font-size: 1rem;
+   color: #333333;
+   transition: all 0.2s ease-in-out;
+}
+
+#register_panel .form-control::placeholder {
+   color: var(--input-placeholder);
    font-weight: bold;
    font-family: 'Times New Roman', Times, serif;
-   font-size: larger;
+   font-size: 1.15rem;
+   opacity: 0.85;
 }
 
-#company-logo{
-  margin-top: 1vh;
+#register_panel .form-control:focus {
+   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+   outline: none;
 }
 
-.uname{
-  margin-top: 2vh; 
-}
-
-/*Registration Page*/
-#reg_brand_panel{
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content:end; 
-   height: 28vh;
-}
-
-#register_panel{
-   margin-top: 4vh;
-   border: green solid 4px;
-   height: 60vh;
-   width: 20vw;
-   border-radius: 19px;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   gap: 2vh;
-   background-color: rgba(71, 158, 71, 0.815);
-}
-
-#register_panel input{
-   width: 56%;
-   padding: 10px;
-   border: gray solid 1px;
-   border: green solid 4px;
+#reg_btn {
+   background-color: #ffffff;
+   color: var(--brand-green-border);
+   border: none;
+   padding: 12px 40px;
+   font-size: 1.1rem;
    border-radius: 8px;
+   width: 100%;
+   transition: all 0.2s ease-in-out;
 }
 
-#reg_btn{
-   width: 60%;
-   padding: 10px;
-   border: green solid 4px;
-   border-radius: 8px;
-   font-weight: bold;
-}
-
-#register_panel input::placeholder{
-   color: rgba(71, 158, 71, 0.815);
-   font-weight: bold;
-   font-family: 'Times New Roman', Times, serif;
-   font-size: larger;
-}
-
-.fname{
-  margin-top: 2vh;  
+#reg_btn:hover {
+   background-color: #111111;
+   color: #ffffff;
 }
 
 /*Password Reset Page*/
-#reset_btn{
-   width: 60%;
-   padding: 10px;
-   border: green solid 4px;
+#reset_btn {
+   background-color: #ffffff;
+   color: var(--brand-green-border);
+   border: none;
+   padding: 12px;
+   font-size: 1.1rem;
    border-radius: 8px;
-   font-weight: bold;
+   transition: all 0.2s ease-in-out;
 }
 
-.pass{
-   margin-top: 2vh;
+#reset_btn:hover {
+   background-color: #111111;
+   color: #ffffff;
+}
+
+.pass {
+   margin-top: 0 !important;
 }
 
 /* Splash Screen Styles */
@@ -292,13 +340,11 @@
     height: 6vh;
     margin: 5vh auto 25px;
     border-radius: 70%;
-    /* Creates the "fade" trail effect */
     background: radial-gradient(farthest-side, #38bdf8 94%, #0000) top/6px 6px no-repeat,
                 conic-gradient(#0000 30%, #38bdf8);
-    /* Creates the hole in the middle */
     -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 6px), #000 0);
     
-    animation: rotate 2s infinite linear;
+    animation: rotate 3s infinite linear;
 }
 
 @keyframes rotate {
@@ -316,7 +362,7 @@
     margin-top: 2vh;
 }
 
-.status-msg {
+#status-msg {
     color: #64748b;
     font-size: 1rem;
     margin-top: 10px;

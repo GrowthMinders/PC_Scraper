@@ -1,4 +1,4 @@
-function new_user_setup(){
+
     var loader = document.getElementById("spinner");
     var loading_state = document.getElementById("status-msg");
 
@@ -17,15 +17,19 @@ function new_user_setup(){
           setTimeout(() => {
              loading_state.innerText = "The Initial Setup Stage Was A Success";
           }, 5000);
+          
+          setTimeout(() => {
+             loading_state.innerText = "Getting Things Ready For You";
+          }, 12000);
 
           setTimeout(() => {
              loading_state.innerText = "Redirecting to Dashboard";
-          }, 8000);
+          }, 15000);
+
 
           setTimeout(() => {
             window.location.href = "http://localhost/Scraper/index.html";
-          }, 10000);
-
+          }, 17000);
 
         } else {
           Swal.fire({
@@ -43,7 +47,3 @@ function new_user_setup(){
         }  
     };
     pc_data_grab.send(session_authenticated);
-
-}
-
-new_user_setup();

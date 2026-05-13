@@ -5,7 +5,7 @@ var forgot = document.getElementById("fpass");
 var uname = document.getElementById("uname");
 var pass = document.getElementById("pass");
 
-var origins = "";
+var origins = ""; 
 
 btn.addEventListener("click", function () {
   if (uname.value === "") {

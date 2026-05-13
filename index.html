@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="./Frontend/ASSETS/favicon.ico">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link href="Frontend/STYLES/main.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <script src="https://jsdelivr.net"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Including Chart.js-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -16,178 +15,222 @@
     <script src="Frontend/API/authentication/session.js"></script>
     <!-- Font Awsome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- PDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.3/html2pdf.bundle.min.js"></script>
 
     <title>PC Scraper</title> 
 </head>
-<body>
+<body class="bg-light">
 
-  <div class="container-fluid d-flex" id="health_banner">
-      <h4>System Health Score:  82% (Good)</h4>
-      
-    <div class="d-flex" id="header_left">
-      <h4 id="last_scan">Last Scan: 13/04/2026</h4>
-      <button type="button" style="border-radius: 50%;" id="profilers"
-        data-bs-container="body" 
-        data-bs-toggle="popover" 
-        data-bs-placement="bottom" 
-        data-bs-html="true" 
-        data-bs-content='
-          <a id="prof" class="pop-option" onclick="window.valid();">Profile</a>
-          <a id="chg_pass" class="pop-option" onclick="window.valid();">Change Password</a>
-          <a id="log" class="pop-option" onclick="window.valid();">Log Out</a>'>
-        <img src="Frontend/ASSETS/DP.avif" style="width: 45px; height: 50px; border-radius: 50%;">      
-      </button>
-    </div>
-
-
+  <!-- Top Most Banner -->
+  <div class="container-fluid d-flex align-items-center justify-content-between bg-white shadow-sm border-bottom" id="health_banner">
+      <h4 class="m-0 fw-bold text-success">System Health Score: 82% (Good)</h4>
+      <div class="d-flex align-items-center" id="header_left">
+          <h5 id="last_scan" class="text-muted m-0">Last Scan: 13/04/2026</h5>
+          <button type="button" id="profilers" class="btn p-0 border-0"
+            data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true" 
+            data-bs-content='<a id="prof" class="pop-option" onclick="window.valid();">Profile</a>
+                             <a id="chg_pass" class="pop-option" onclick="window.valid();">Change Password</a>
+                             <a id="log" class="pop-option" onclick="window.valid();">Log Out</a>
+                             <a id="export" class="pop-option" onclick="window.valid();">Export Report</a>
+                             '>
+            <img src="Frontend/ASSETS/DP.avif" alt="Profile" class="rounded-circle profile-avatar">      
+          </button>
+      </div>
   </div>  
 
   <!-- Basic Information Section -->
-  <div class="container-fluid d-flex" id="section1">
-    <!-- First Div -->
-    <div id="profiler">
-      <h4 id="card_headers">Hardware Information</h4>
-      <center>
-        <img src="Frontend/ASSETS/Logo.png" id="brand-logo"  class="img-thumbnail">
-      </center>
-       <span id="cpu_name"></span><br>
-       <span id="ram"></span><br>
-       <span id="external_gpu"></span><br>
-       <span id="internal_gpu"></span>
-    </div>
+  <div class="container-fluid my-4">
+      <div class="row g-4" id="section1">
+          <!-- Hardware Info -->
+          <div class="col-12 col-lg-4">
+              <div id="profiler" class="info-card p-4 h-100 bg-white border rounded shadow-sm">
+                  <h4 id="card_headers" class="border-bottom pb-2 mb-3">Hardware Information</h4>
+                  <div class="text-center mb-4 img-container-fixed">
+                      <img src="Frontend/ASSETS/Logo.png" id="brand-logo" class="img-fluid large-thumb" alt="Brand Logo">
+                  </div>
+                  <div class="stats-box">
+                      <span id="cpu_name"></span><br>
+                      <span id="ram"></span><br>
+                      <span id="external_gpu"></span><br>
+                      <span id="internal_gpu"></span>
+                  </div>
+              </div>
+          </div>
 
-    <!-- Second Div -->
-    <div id="os-detailer">
-      <h4 id="card_headers">Operating System Information</h4>
-      <center>
-        <img src="" id="win_logo" class="img-fluid img-thumbnail"><br>
-      </center>  
-        <span id="device_name"></span><br>
-        <span id="windows_version"></span><br>
-        <span id="build_version"></span><br>
-        <span id="last_up"></span><br>
-        <span id="license_pro"></span><br>
-        <span id="activation"></span><br>
-    </div>
+          <!-- Operating System Details -->
+          <div class="col-12 col-lg-4">
+              <div id="os-detailer" class="info-card p-4 h-100 bg-white border rounded shadow-sm">
+                  <h4 id="card_headers" class="border-bottom pb-2 mb-3">Operating System Information</h4>
+                  <div class="text-center mb-4 img-container-fixed">
+                      <img src="" id="win_logo" class="img-fluid large-thumb" alt="Windows Logo">
+                  </div>  
+                  <div class="stats-box">
+                      <span id="device_name"></span><br>
+                      <span id="windows_version"></span><br>
+                      <span id="build_version"></span><br>
+                      <span id="last_up"></span><br>
+                      <span id="license_pro"></span><br>
+                      <span id="activation"></span><br>
+                  </div>
+              </div>
+          </div>
 
-    <!-- Third Div -->
-    <div id="pinger">
-      <h4 id="card_headers">Network Information</h4>
-        <center>
-          <img src="" id="isp_logo" class="img-fluid img-thumbnail"><br>
-        </center>
-        <span id="mac"></span><br>    
-        <span id="mtu"></span><br>
-        <span id="ip"></span><br>
-        <span id="mask"></span><br>
-        <span id="gate"></span><br>
-        <span id="provide"></span>
-    </div>
+          <!-- Network Details -->
+          <div class="col-12 col-lg-4">
+              <div id="pinger" class="info-card p-4 h-100 bg-white border rounded shadow-sm">
+                  <h4 id="card_headers" class="border-bottom pb-2 mb-3">Network Information</h4>
+                  <div class="text-center mb-4 img-container-fixed">
+                      <img src="" id="isp_logo" class="img-fluid large-thumb" alt="ISP Logo">
+                  </div>
+                  <div class="stats-box">
+                      <span id="mac"></span><br>    
+                      <span id="mtu"></span><br>
+                      <span id="ip"></span><br>
+                      <span id="mask"></span><br>
+                      <span id="gate"></span><br>
+                      <span id="provide"></span>
+                  </div>
+              </div>
+          </div>
+      </div>
   </div>
 
-  <!-- Live Metrics For CPU, RAM, Network -->
-  <div id="section2">
-    <div>
-      <h4 id="card_headers">Live Metrics Analyzer</h4>
-    </div><br>
+  <!-- Live Metrics Fluid Flex Row Container -->
+  <div class="container-fluid my-4">
+      <div id="section2" class="p-4 bg-white border rounded shadow-sm">
+          <div class="mb-4">
+              <h4 id="card_headers" class="m-0">Live Metrics Analyzer</h4>
+          </div>
 
-    <!-- Live Hardware Data Container --> 
-    <center><div class="d-flex justify-content-center" id="live_spec_main">
-      <!-- CPU Live Data --> 
-      <div id="cpu" class="info_block">
-        <center><h6 id="sub-head-section2">Central Processing Unit</h6></center>
-        <div id="chart1" class="chart">
-          <canvas id="cpuLoad"></canvas>
-        </div>
+          <!-- Flex Container Wrapper for Charts --> 
+          <div class="d-flex flex-column flex-lg-row gap-4 justify-content-between" id="live_spec_main">
+              <!-- CPU Info Block --> 
+              <div id="cpu" class="info_block flex-fill p-2">
+                  <h6 id="sub-head-section2" class="text-center fw-bold mb-3">Central Processing Unit</h6>
+                  <div id="chart1" class="chart canvas-container mb-3">
+                      <canvas id="cpuLoad"></canvas>
+                  </div>
+                  <div id="cpu_info" class="detailers px-2">
+                      <span id="cpu_use"></span><br>
+                      <span id="cpu_tre"></span><br>
+                      <span id="cpu_core"></span><br>
+                      <span id="cpu_up"></span><br>
+                  </div>
+              </div>
 
-        <div id="cpu_info" class="detailers">
-          <span id="cpu_use"></span><br>
-          <span id="cpu_tre"></span><br>
-          <span id="cpu_core"></span><br>
-          <span id="cpu_up"></span><br>
-        </div>
+              <!-- RAM Info Block --> 
+              <div id="ram-block" class="info_block flex-fill p-3">
+                  <h6 id="sub-head-section2" class="text-center fw-bold mb-3">Random Access Memory</h6>
+                  <div id="chart2" class="chart canvas-container mb-3">
+                      <canvas id="ramLoad"></canvas>
+                  </div>
+                  <div id="ram_info" class="detailers px-2">
+                      <span id="ram_use"></span><br>
+                      <span id="free_ram"></span><br>
+                      <span id="form"></span><br>
+                      <span id="slot"></span>
+                  </div>
+              </div>
+
+              <!-- Network Info Block --> 
+              <div id="networks" class="info_block flex-fill p-3">
+                  <h6 id="sub-head-section2" class="text-center fw-bold mb-3">Bandwidth</h6>
+                  <div id="chart3" class="chart canvas-container mb-3">
+                      <canvas id="networkLoad"></canvas>
+                  </div>
+                  <div id="net_info" class="detailers px-2">
+                      <span id="adapter"></span><br>
+                      <span id="band"></span><br>
+                      <span id="up"></span><br>
+                      <span id="down"></span><br>
+                  </div>
+              </div>
+          </div>
       </div>
 
-     <!-- RAM Live Data --> 
-     <div id="ram" class="info_block">
-       <center><h6 id="sub-head-section2">Random Access Memory</h6></center>
-       <div id="chart2" class="chart">
-         <canvas id="ramLoad"></canvas>
-       </div>
 
-       <div id="ram_info" class="detailers">
-         <span id="ram_use"></span><br>
-         <span id="free_ram"></span><br>
-         <span id="form"></span><br>
-         <span id="slot"></span>
-       </div>
-     </div>
 
-     <!-- Network Live Data --> 
-     <div id="networks" class="info_block">
-       <center><h6 id="sub-head-section2">Bandwidth</h6></center> 
-       <div id="chart3" class="chart">
-         <canvas id="networkLoad"></canvas>
-       </div>
+      <div class="container-fluid my-4">
+      <div id="section2" class="p-4 bg-white border rounded shadow-sm">
 
-       <div id="net_info" class="detailers">
-         <span id="adapter"></span><br>
-         <span id="band"></span><br>
-         <span id="up"></span><br>
-         <span id="down"></span><br>
-       </div>
-     </div></center>
+          <!-- Flex Container Wrapper for Charts --> 
+          <div class="d-flex flex-column flex-lg-row gap-4 justify-content-between" id="live_spec_main1">
+             
+          </div>
+      </div>
 
-    <!-- GPU Live Data Dynamically Rendering --> 
-
-    </div> 
   </div>
 
-  <!-- Pinger And Recommendation Engine -->
-  <div class="d-flex" id="section3">
-     <div id="pinger_roled">
-        <h4 id="card_headers">Network Pinging Utility</h4>
-     </div>
-     <div id="recommendation">
-        <h4 id="card_headers">Recommendation Engine</h4>
-     </div>
+  <!-- Pinger and Recommendation -->
+  <div class="container-fluid my-4">
+      <div class="row g-4" id="section3">
+          <div class="col-12 col-md-6">
+              <div id="pinger_roled" class="p-4 bg-white border rounded shadow-sm min-h-200">
+                  <h4 id="card_headers" class="border-bottom pb-2">Network Pinging Utility</h4>
+              </div>
+
+              <div id="stats-box">
+                <span id="domains"></span><br>
+                <span id="delay"></span><br>
+                <span id="latency"></span><br>
+                <span id="packet_loss"></span><br>
+                <span id="jitter"></span><br>
+                <span id="throughput"></span><br>
+              </div>
+
+          </div>
+          <div class="col-12 col-md-6">
+              <div id="recommendation" class="p-4 bg-white border rounded shadow-sm min-h-200">
+                  <h4 id="card_headers" class="border-bottom pb-2">Recommendation Engine</h4>
+              </div>
+          </div>
+      </div>
   </div>
 
-  <div id="brand">
-    <center><img src="Frontend/ASSETS/Sri_Dedunu_Tech_Solutions.png" id="company" style="margin-right: 4vw;"><span id="copy">&copy;ALL RIGHTS RESERVED BY SRI DEDUNU TECH SOLUTIONS</span></center>
-  </div>
+  <!-- Footer -->
+  <footer id="brand" class="bg-white border-top py-4 mt-5 text-center">
+      <div class="container d-flex flex-column flex-md-row align-items-center justify-content-center gap-3">
+          <img src="Frontend/ASSETS/Sri_Dedunu_Tech_Solutions.png" id="company" class="img-fluid" alt="Company Logo" style="max-height: 60px;">
+          <span id="copy" class="text-muted small">&copy; ALL RIGHTS RESERVED BY SRI DEDUNU TECH SOLUTIONS</span>
+      </div>
+  </footer>
   
-  <!-- Top Most Detail Loaders -->
+
+  <!-- Network Quality Testing Script -->
+  <script src="Frontend/API/data_handling/Index/pinger.js"></script> 
+
+  <!-- Rendering Detail Banners -->
   <script src="Frontend/API/data_handling/Index/hardware_stats.js"></script>
   <script src="Frontend/API/data_handling/Index/operating_system.js"></script>
   <script src="Frontend/API/data_handling/Index/networker.js"></script>
-
-  <!-- Live Metrics -->
   <script src="Frontend/API/data_handling/Index/Static_Metrics.js"></script>
+
+  <!-- Rendering Dynamic Hardware Data -->
   <script src="Frontend/API/data_handling/Index/Dynamic_Metrics.js"></script>
+
+  <!-- Rendering Charts For Dynamic Data -->
   <script src="Frontend/API/data_handling/Index/Metrics_Charts.js"></script>
 
-  <!-- Account Management Components -->
+  <!-- User Management And Report Generator -->
   <script src="Frontend/Sweet_Alert_Pages/profile.js"></script>
   <script src="Frontend/Sweet_Alert_Pages/change_password.js"></script>
   <script src="Frontend/Sweet_Alert_Pages/log_out.js"></script>
+  <script src="Frontend/Sweet_Alert_Pages/report.js"></script>
 
-  <!-- OTP Systems -->
+  <!-- OTP Linkers -->
   <script src="Frontend/API/authentication/otp_email.js"></script>
   <script src="Frontend/API/authentication/otp_sms.js"></script>
   <script src="Frontend/API/authentication/otp_whatsapp.js"></script>
 
-  <!-- DB Data And Live Data Comparing -->
-  <script src="Frontend/API/data_handling/db_comparison.js"></script> 
+  <!-- Hardware Changes Detector -->
+  <script src="Frontend/API/data_handling/db_comparison.js"></script>
 
-  <!-- Initiating The Pop Over --> 
-<script>
-  const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-  const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl, {
-    // This forces it to stay at the bottom or top, ignoring the left/right sides
-    fallbackPlacements: ['top', 'bottom'] 
-  }))
-</script>
-
+  <script>
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl, {
+      fallbackPlacements: ['top', 'bottom'] 
+    }))
+  </script>
 </body>
 </html>

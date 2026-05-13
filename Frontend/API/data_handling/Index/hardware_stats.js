@@ -17,28 +17,39 @@ function main_load (){
       ext_gpu.innerHTML = `<strong>External GPU: </strong>` + data.hardware[1];
       in_gpu.innerHTML = `<strong>Internal GPU: </strong>` + data.hardware[2];
 
-      var div = document.getElementById("profiler");
-      let drive_no = document.createElement("span");
+      // Target the existing centered stats container to inherit unified flex styles
+      var statsContainer = document.querySelector("#profiler .stats-box");
+      
+      // Clear out any previously generated dynamic storage entries to prevent data ghosting loops
+      var existingDrive = document.getElementById("drive");
+      if (existingDrive) {
+          existingDrive.remove();
+      }
 
-      drive_no.style.display = "block";
-      drive_no.style.marginLeft = "12px";
+      let drive_no = document.createElement("span");
       drive_no.id = "drive";
+      
+      // Builds a clean block matching the spacing parameters of other lines
+      drive_no.style.display = "inline-block";
+      drive_no.style.marginTop = "14px";
       
       data.storage.forEach((drives, index) => {
         if(index == 0){
-          drive_no.innerHTML += `<strong>Storage ${index + 1}: </strong>` + drives;
-        }else{
-          drive_no.innerHTML += `<strong><br>Storage ${index + 1}: </strong>` + drives;
+          drive_no.innerHTML += `<strong>Storage ${index + 1}: </strong>` + drives + `<br>`;
+        } else {
+          drive_no.innerHTML += `<br><strong>Storage ${index + 1}: </strong>` + drives;
         }
-         
-         div.appendChild(drive_no);
       });
 
+      // Appends inside the centered flex matrix box safely
+      if(statsContainer) {
+          statsContainer.appendChild(drive_no);
+      }
 
     }else{
       Swal.fire({
         title: "Ooops!",
-        text: "Currently These Service Is Unavailable, PLease Try Again Later",
+        text: "Currently These Service Is Unavailable, Please Try Again Later",
         icon: "error",
       });
     }
@@ -46,4 +57,5 @@ function main_load (){
   hardware_fetch.send();
 }
 main_load();
+
 

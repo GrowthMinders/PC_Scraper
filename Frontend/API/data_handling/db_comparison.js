@@ -1,33 +1,38 @@
-//Gathering OS Related Data
-var device_name = document.getElementById("device_name").value;
-var windows_version = document.getElementById("windows_version").value;
-var build_version = document.getElementById("build_version").value;
-var last_up = document.getElementById("last_up").value;
-var license_pro = document.getElementById("license_pro").value;
-var activation = document.getElementById("activation").value;
+window.addEventListener('load', function() {
+  setTimeout(function() {
+  //Gathering OS Related Data
+  var device_name = document.getElementById("device_name").textContent;
+  var windows_version = document.getElementById("windows_version").textContent;
+  var build_version = document.getElementById("build_version").textContent;
+  var last_up = document.getElementById("last_up").textContent;
+  var license_pro = document.getElementById("license_pro").textContent;
+  var activation = document.getElementById("activation").textContent;
 
-//Gathering Hardware Related Data
-var cpu_name = document.getElementById("cpu_name").value;
-var ram = document.getElementById("ram").value;
-var external_gpu = document.getElementById("external_gpu").value;
-var internal_gpu = document.getElementById("internal_gpu").value;
-var storage = document.getElementById("drive").value;
+  //Gathering Hardware Related Data
+  var cpu_name = document.getElementById("cpu_name").textContent;
+  var ram = document.getElementById("ram").textContent;
+  var external_gpu = document.getElementById("external_gpu").textContent;
+  var internal_gpu = document.getElementById("internal_gpu").textContent;
+  var storage = document.getElementById("drive").textContent;
 
-var cause = "";
+  //Getting The Session
+  var session_authenticated = sessionStorage.getItem('loged');
 
-var first_time_detect = new XMLHttpRequest();
-first_time_detect.open("POST", "api/db_tally");
-first_time_detect.setRequestHeader("Content-Type", "application/json");
+  var cause = "";
+
+  var first_time_detect = new XMLHttpRequest();
+  first_time_detect.open("POST", "api/db_tally");
+  first_time_detect.setRequestHeader("Content-Type", "application/json");
     
-first_time_detect.onload = function () {
-  if(first_time_detect.status == 200) {
-    var data = JSON.parse(first_time_detect.responseText);
-    var instance = data[0];
-    var user_id = instance.id;
+  first_time_detect.onload = function () {
+    if(first_time_detect.status == 200) {
+      var data = JSON.parse(first_time_detect.responseText);
+      var instance = data[0];
+      var user_id = instance.id;
 
-    cause = "grab_data";
+      cause = "grab_data";
     
-    if(instance.ip != "0" && instance.time != "0"){
+      if(instance.ip != "0" && instance.time != "0"){
       
       var change_notifier = new XMLHttpRequest();
       change_notifier.open("POST", "api/db_tally");
@@ -69,22 +74,21 @@ first_time_detect.onload = function () {
       var jsonDatacount = JSON.stringify(datacount);
       change_notifier.send(jsonDatacount);
 
-  } else {
-    Swal.fire({
-      title: "Profile Verification",
-      text: "Profile Not Found",
-      icon: "error",
-      confirmButtonColor: "#e9101085",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.close();
-      } else {
-        Swal.close();
-      }
-    });
-  }  
-};
-first_time_detect.send(session_authenticated);
-
-
-
+    }else{
+      Swal.fire({
+        title: "Profile Verification",
+        text: "Profile Not Found",
+        icon: "error",
+        confirmButtonColor: "#e9101085",
+      }).then((result) => {
+        if(result.isConfirmed){
+          Swal.close();
+        }else{
+          Swal.close();
+        }
+      });
+    }  
+  };
+  first_time_detect.send(session_authenticated);
+   }, 10000); //Setted A Delay To Avoid Error Element Not Found
+});   
