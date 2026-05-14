@@ -89,7 +89,7 @@ function gpu_data() {
                         <canvas id="gpuLoad${i+1}"></canvas>
                     </div>
                     
-                    <div class="detailers px-2">
+                    <div class="detailers${i+1} px-2">
                         <span><strong>${currentGPU.name}</strong></span><br>
                         <span id="gpu-load${i+1}"></span><br>
                         <span><strong>Driver:</strong> ${currentGPU.driver}</span><br>
