@@ -14,7 +14,7 @@
     <script src="Frontend/API/authentication/authority.js"></script>
     <script src="Frontend/API/authentication/session.js"></script>
     <!-- Font Awsome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <!-- PDF Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.3/html2pdf.bundle.min.js"></script>
 
@@ -23,21 +23,24 @@
 <body class="bg-light">
 
   <!-- Top Most Banner -->
-  <div class="container-fluid d-flex align-items-center justify-content-between bg-white shadow-sm border-bottom" id="health_banner">
-      <h4 class="m-0 fw-bold text-success">System Health Score: 82% (Good)</h4>
-      <div class="d-flex align-items-center" id="header_left">
-          <h5 id="last_scan" class="text-muted m-0">Last Scan: 13/04/2026</h5>
-          <button type="button" id="profilers" class="btn p-0 border-0"
-            data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true" 
-            data-bs-content='<a id="prof" class="pop-option" onclick="window.valid();">Profile</a>
-                             <a id="chg_pass" class="pop-option" onclick="window.valid();">Change Password</a>
-                             <a id="log" class="pop-option" onclick="window.valid();">Log Out</a>
-                             <a id="export" class="pop-option" onclick="window.valid();">Export Report</a>
-                             '>
+<div class="container-fluid d-flex align-items-center justify-content-between bg-white shadow-sm border-bottom" id="health_banner">
+    <h4 class="m-0 fw-bold text-success">System Health Score: 82% (Good)</h4>
+    <div class="d-flex align-items-center" id="header_left">
+        <h5 id="last_scan" class="text-muted m-0 me-3">Last Scan: 13/04/2026</h5>
+        <button type="button" id="profilers" class="btn p-0 border-0"
+            data-bs-container="body" 
+            data-bs-toggle="popover" 
+            data-bs-placement="bottom" 
+            data-bs-html="true" 
+            data-bs-content='<a id="prof" class="pop-option" onclick="window.valid();"><i class="fas fa-id-card"></i> Profile</a>
+            <a id="chg_pass" class="pop-option" onclick="window.valid();"><i class="fas fa-shield-alt"></i> Change Password</a>
+            <a id="export" class="pop-option" onclick="window.valid();"><i class="fas fa-file-export"></i> Export Report</a>
+            <a id="log" class="pop-option" onclick="window.valid();"><i class="fas fa-sign-out-alt"></i> Log Out</a>'>
             <img src="Frontend/ASSETS/DP.avif" alt="Profile" class="rounded-circle profile-avatar">      
-          </button>
-      </div>
-  </div>  
+        </button>
+    </div>
+</div>
+ 
 
   <!-- Basic Information Section -->
   <div class="container-fluid my-4">
@@ -168,16 +171,91 @@
           <div class="col-12 col-md-6">
               <div id="pinger_roled" class="p-4 bg-white border rounded shadow-sm min-h-200">
                   <h4 id="card_headers" class="border-bottom pb-2">Network Pinging Utility</h4>
-              </div>
-
               <div id="stats-box">
-                <span id="domains"></span><br>
-                <span id="delay"></span><br>
-                <span id="latency"></span><br>
-                <span id="packet_loss"></span><br>
-                <span id="jitter"></span><br>
-                <span id="throughput"></span><br>
+
+                <div class="d-flex">
+                  <span class="offset-1" id="domains"></span><br>
+                  <img src="./Frontend/ASSETS/Ping.png" id="brand-logo1" class="img-fluid large-thumb col-3 offset-2">
+                </div>
+                
+
+
+
+
+
+<div class="container" style="display: flex; width: 100%;">
+  <!-- Left Side (Results Table) -->
+  <div class="left-side" style="flex: 4;">
+         <table class="offset-1" id="metric_table">
+    <thead>
+        <tr>
+            <th id="head" style="text-align: left; padding: 8px; font-weight: bold;"></th>
+            <th id="head1" style="text-align: left; padding: 8px; font-weight: bold;"></th>
+            <th id="head2" style="text-align: left; padding: 8px; font-weight: bold;"></th> 
+            <!-- Wrapped column content in a responsive grid layout -->
+            <th id="head3" style="text-align: left; padding: 8px; font-weight: bold;">
+                <div class="row m-0">
+                    <div class="col-4 offset-8 p-0" id="head3"></div>
+                </div>
+            </th>  
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="border-top: 1px solid #ddd;">
+            <td id="metric1" style="padding: 8px; font-weight: bold;"></td>
+            <td id="sl_delay" style="padding: 8px; color: #555;"></td>
+            <td id="user_delay" style="padding: 8px; font-weight: bold; color: #2e7d32;"></td>
+            <!-- Wrapped cell content to support responsive grid offsets -->
+            <td id="status1" style="padding: 8px;">
+                <div class="row m-0">
+                    <div class="col-4 offset-8 p-0" id="status1"></div>
+                </div>
+            </td>
+        </tr>
+        <tr style="border-top: 1px solid #ddd;">
+            <td id="metric2" style="padding: 8px; font-weight: bold;"></td>
+            <td id="sl_latency" style="padding: 8px; color: #555;"></td>
+            <td id="user_latency" style="padding: 8px; font-weight: bold; color: #2e7d32;"></td>
+            <td id="status2" style="padding: 8px;">
+                <div class="row m-0">
+                    <div class="col-4 offset-8 p-0" id="status2"></div>
+                </div>
+            </td>
+        </tr>
+        <tr style="border-top: 1px solid #ddd;">
+            <td id="metric3" style="padding: 8px; font-weight: bold;"></td>
+            <td id="sl_pkt_loss" style="padding: 8px; color: #555;"></td>
+            <td id="user_pkt_loss" style="padding: 8px; font-weight: bold; color: #2e7d32;"></td>
+            <td id="status3" style="padding: 8px;">
+                <div class="row m-0">
+                    <div class="col-4 offset-8 p-0" id="status3"></div>
+                </div>
+            </td>
+        </tr>
+        <tr style="border-top: 1px solid #ddd;">
+            <td id="metric4" style="padding: 8px; font-weight: bold;"></td>
+            <td id="sl_jitter" style="padding: 8px; color: #555;"></td>
+            <td id="user_jitter" style="padding: 8px; font-weight: bold; color: #2e7d32;"></td>
+            <td id="status4" style="padding: 8px;">
+                <div class="row m-0">
+                    <div class="col-4 offset-8 p-0" id="status4"></div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+  </div>
+
+  <!-- Right Side (Graphics/Status) -->
+  <div class="right-side" style="flex: 2; display: flex; justify-content: center; align-items: center;">
+    <div id="final_out" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+      <div id="final_out"></div>
+    </div>
+  </div>
+</div>
+
               </div>
+            </div>  
 
           </div>
           <div class="col-12 col-md-6">
@@ -196,6 +274,11 @@
       </div>
   </footer>
   
+  <!-- Hiding Metrics Table Until Data Is Ready -->
+  <script>
+    document.getElementById("metric_table").style.display = "none";
+    document.getElementById("brand-logo1").style.display = "none";
+  </script> 
 
   <!-- Network Quality Testing Script -->
   <script src="Frontend/API/data_handling/Index/pinger.js"></script> 

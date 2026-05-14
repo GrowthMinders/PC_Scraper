@@ -5,17 +5,11 @@
 }
 
 /* Dashboard */
-/* ==========================================================================
-   PC Scraper Dashboard - Final Production Stylesheet
-   ========================================================================== */
-
-/* --- General & Body Setup --- */
 body {
    background-color: #f8f9fa;
    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
-/* --- Top Most Header Navigation Settings --- */
 #health_banner {
   padding: 15px 25px;
   background-color: #ffffff;
@@ -40,7 +34,6 @@ body {
   border: 2px solid #dee2e6;
 }
 
-/* --- Dropdown Menu Item Styling Rules (Bootstrap Popover Hook) --- */
 .pop-option {
    text-decoration: none;
    color: #212529;
@@ -58,7 +51,6 @@ body {
    cursor: pointer;
 }
 
-/* --- Card Block Element Structures --- */
 #card_headers {
   font-size: 1.2rem;
   font-weight: 700;
@@ -70,7 +62,6 @@ body {
   font-size: 0.95rem;
 }
 
-/* --- Information Card Top Images (Scaled to 175px) --- */
 .img-container-fixed {
   height: 185px;
   display: flex;
@@ -94,7 +85,6 @@ body {
    color: #495057;
 }
 
-/* --- Live Metrics Detail Text Layouts --- */
 .detailers span {
    margin-left: 12px;
    display: inline-block;
@@ -107,7 +97,6 @@ body {
   min-height: 200px;
 }
 
-/* --- Live Metrics Area: Master Layout Elements with Shared Borders --- */
 #live_spec_main .info_block,
 #live_gpu_row .info_block,
 #live_spec_main1 .info_block{
@@ -125,13 +114,11 @@ body {
   box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
 }
 
-/* Forces each GPU node card to capture exactly 50% width on desktop rows */
 #live_gpu_row .info_block {
   flex: 1 1 calc(50% - 1rem);
   max-width: calc(50% - 0.5rem);
 }
 
-/* Fluid responsive stacking fallback rules for smaller displays */
 @media (max-width: 991.98px) {
   #live_gpu_row {
     flex-direction: column !important;
@@ -142,7 +129,6 @@ body {
   }
 }
 
-/* --- Chart Canvases Sizing Lock Engine --- */
 .canvas-container {
   position: relative;
   width: 100%;
@@ -166,6 +152,16 @@ body {
    justify-content: center; 
    text-align: center;
    width: 100%;
+}
+
+#final_out {
+  display: flex;
+  justify-content: center; 
+  align-items: center;     
+  flex-direction: column;  
+  text-align: center;      
+  width: 100%;            
+  height: 100%;            
 }
 
 /*Login Page*/
