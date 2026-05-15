@@ -2,6 +2,8 @@
 var btn = document.getElementById("log_btn");
 var forgot = document.getElementById("fpass");
 
+var role = "";
+
 var uname = document.getElementById("uname");
 var pass = document.getElementById("pass");
 
@@ -21,55 +23,81 @@ btn.addEventListener("click", function () {
       icon: "error",
     });
   } else {
+    //Get The Role Prior
+    function first_ping(){
+      Swal.fire({
+        title: 'Select Target Role',
+        input: 'select',
+        inputOptions: {
+          stream: 'Streaming',
+          dev: 'Development',
+          test: 'Testing',
+          normal: 'Basic Use'
+        },
+        inputPlaceholder: 'Target Playground'
+      }).then((result) => {
+         role = result.value;
+         sessionStorage.setItem('user', role);
+         onSuccess();
+      });   
+    }
+    first_ping();
 
-    var logreq = new XMLHttpRequest();
-    logreq.open("POST", "api/login");
-    logreq.onload = function () {
-      if (logreq.status == 200) {
-        
+function onSuccess() {
+  // Login Logic
+  var logreq = new XMLHttpRequest();
+  logreq.open("POST", "api/login");
+  
+  logreq.onload = function () {
+    if (logreq.status == 200) {
+      // Dynamic Login Session Setter
       Swal.fire({
         title: 'Select OTP Mode',
         input: 'select',
         inputOptions: {
-            sms: 'SMS',
-            what: 'Whatsapp',
-            email: 'Email'
+          sms: 'SMS',
+          what: 'Whatsapp',
+          email: 'Email'
         },
         inputPlaceholder: 'Select preferred OTP mode'
       }).then((result) => {
-          const otp_mode = result.value;
-    
-          if(otp_mode === "sms"){
-            origins = window.location.href;
-            OTPsms(); 
-          }else if(otp_mode === "what"){
-            origins = window.location.href;
-            OTPwhat();
-          }else{
-            origins = window.location.href;
-            OTPmail();
-          }
-     });
+        if (!result.value) return; 
+
+        const otp_mode = result.value;
+        origins = window.location.href;
+
+        if (otp_mode === "sms") {
+          OTPsms(); 
+        } else if (otp_mode === "what") {
+          OTPwhat();
+        } else if (otp_mode === "email") {
+          OTPmail();
+        }
+      });
       
-      } else if(logreq.status == 401){
-        Swal.fire({
-          title: "Ooops!",
-          text: "Account not found",
-          icon: "error",
-        });
-      }else {
-        Swal.fire({
-          title: "Ooops!",
-          text: "Invalid Credentials",
-          icon: "error",
-        });
-      }
-    };
-    var data = {uname: uname.value, pass: pass.value};
-    var jsonData = JSON.stringify(data);
-    logreq.send(jsonData);
-  }
+    } else if (logreq.status == 401) {
+      Swal.fire({
+        title: "Ooops!",
+        text: "Account not found",
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        title: "Ooops!",
+        text: "Invalid Credentials",
+        icon: "error",
+      });
+    }
+  };
+
+  var data = { uname: uname.value, pass: pass.value};
+  var jsonData = JSON.stringify(data);
+  logreq.send(jsonData);
+}
+}
 });
+
+
 
 
 //Forgott Password Code Block

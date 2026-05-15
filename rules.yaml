@@ -23,7 +23,7 @@ rules:
   - id: "packet_loss"
     description: "Check if packet loss is safely under or equal to the limit"
     parameter: "loss"
+    expected_format: "numeric_extract"
     operator: "lte"
     value: 4
-    unit: "%"
     score: 25

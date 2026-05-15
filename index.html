@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <!-- PDF Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.3/html2pdf.bundle.min.js"></script>
+    <!-- YAML Parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
 
     <title>PC Scraper</title> 
 </head>
@@ -24,9 +26,9 @@
 
   <!-- Top Most Banner -->
 <div class="container-fluid d-flex align-items-center justify-content-between bg-white shadow-sm border-bottom" id="health_banner">
-    <h4 class="m-0 fw-bold text-success">System Health Score: 82% (Good)</h4>
+    <h4 class="m-0 fw-bold text-success" id="health_score"> </h4>
     <div class="d-flex align-items-center" id="header_left">
-        <h5 id="last_scan" class="text-muted m-0 me-3">Last Scan: 13/04/2026</h5>
+        <h5 id="last_scan" class="text-muted m-0 me-3"> </h5>
         <button type="button" id="profilers" class="btn p-0 border-0"
             data-bs-container="body" 
             data-bs-toggle="popover" 
@@ -261,6 +263,9 @@
           <div class="col-12 col-md-6">
               <div id="recommendation" class="p-4 bg-white border rounded shadow-sm min-h-200">
                   <h4 id="card_headers" class="border-bottom pb-2">Recommendation Engine</h4>
+                <div id="recomender" style="width: 100%">
+                   
+                </div>
               </div>
           </div>
       </div>
@@ -308,6 +313,9 @@
 
   <!-- Hardware Changes Detector -->
   <script src="Frontend/API/data_handling/db_comparison.js"></script>
+
+  <!-- Recomendation Engine Script -->
+  <script src="Frontend/API/data_handling/Index/recomendation.js"></script> 
 
   <script>
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')

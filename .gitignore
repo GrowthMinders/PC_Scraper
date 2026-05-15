@@ -1,0 +1,3 @@
+# Ignore environment configuration files containing sensitive secrets
+.env
+.env.local

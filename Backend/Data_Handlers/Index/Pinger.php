@@ -37,12 +37,15 @@ while($row = mysqli_fetch_assoc($query)){
         if (preg_match('/time[<=](\d+)ms/', $line, $matches)) {
             $times[] = (int)$matches[1];
         }
-        if (strpos($line, 'Loss') !== false) {
-            preg_match('/\((\d+)%\s+loss\)/', $line, $loss_match);
+
+        // FIXED PACKET LOSS PARSING (ONLY CHANGE)
+        if (strpos($line, 'loss') !== false || strpos($line, 'Lost') !== false) {
+            preg_match('/\((\d+)%\s*loss\)/i', $line, $loss_match);
             if (isset($loss_match[1])) {
                 $loss = (int)$loss_match[1];
             }
         }
+
         if (strpos($line, 'Average') !== false) {
             preg_match('/Average\s*=\s*(\d+)ms/', $line, $avg_match);
             if (isset($avg_match[1])) {

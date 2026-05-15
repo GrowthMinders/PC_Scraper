@@ -152,6 +152,13 @@
            require $BASE_URL.'Data_Handlers\\Index\\Pinger.php'; //To Display Network Packetloss, Delay Jitter and ect
            break;   
 
+        //Getting The Health And The Recmmendation Engine Details
+        case '/Scraper/api/recommender' :
+           require $BASE_URL.'Data_Handlers\\Index\\recommendation.php'; //To Display Network Packetloss, Delay Jitter and ect
+           break;  
+
+
+
         default:
            http_response_code(500);
         break;

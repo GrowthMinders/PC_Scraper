@@ -1,6 +1,13 @@
-var role = "";
+var roles = "";
 var attempt = false;
 
+var role_redirect = "";
+
+if(attempt === false){
+  role_redirect = sessionStorage.getItem('user');
+  attempt = true;
+  roles = role_redirect;
+}
 
 function ping_network(){
   var ping = new XMLHttpRequest();
@@ -123,36 +130,11 @@ function ping_network(){
       });
     } 
   };
-  var datacount = {action: role};
+  var datacount = {action: roles};
   var jsonDatacount = JSON.stringify(datacount);
   ping.send(jsonDatacount);
 
 }
-
-
-function first_ping(){
- Swal.fire({
-   title: 'Select Target Role',
-   input: 'select',
-   inputOptions: {
-     stream: 'Streaming',
-     dev: 'Development',
-     test: 'Testing',
-     normal: 'Basic Use'
-   },
-   inputPlaceholder: 'Target Playground'
- }).then((result) => {
-     role = result.value;
-     attempt = true;
-
-     if(attempt == true && role != ""){
-       ping_network();
-     }
- });  
-  
-}
-first_ping();
-
 
 setTimeout(function() {
   setInterval(ping_network, 10000);

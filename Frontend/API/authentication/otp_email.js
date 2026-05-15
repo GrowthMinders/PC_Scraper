@@ -338,7 +338,7 @@ function OTPmail(){
                                 
                               }
                             };
-                            var data = {email: mail, track: "mail", otp: result.value, purpose: instance};
+                            var data = {email: mail, track: "mail", otp: result.value, purpose: instance, user: role};
                             var jsonData = JSON.stringify(data);
                             logreq.send(jsonData);
                           

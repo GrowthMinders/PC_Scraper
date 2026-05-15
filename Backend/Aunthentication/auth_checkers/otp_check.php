@@ -20,10 +20,13 @@ header("Access-Control-Allow-Credentials: true");
   $json = file_get_contents('php://input');
   $data = json_decode($json, true);
 
+  $user = "";
+  $session_exp_time = 0;
+
   $sql = "";
   $email = "";
   $tel = "";
-  $uid = 0;    //login or edit
+  $uid = 0;    
 
   if(isset($data['email'])){
     $email = $data['email'];
@@ -49,6 +52,20 @@ header("Access-Control-Allow-Credentials: true");
   $instance = "";
 
   if(isset($data['purpose'])){
+    $user = $data['user'];
+    
+      //Dynamically Setting Session Time
+  if($user === "stream"){
+    $session_exp_time = 9000;
+  }else if($user === "dev"){
+    $session_exp_time = 86400;
+  }else if($user === "test"){
+    $session_exp_time = 86400;
+  }else{
+    $session_exp_time = 9000;
+  }
+
+
     $instance = $data['purpose'];
 
     $otp_code = "";
@@ -80,7 +97,7 @@ header("Access-Control-Allow-Credentials: true");
 
         $payload = [
           "issued" => time(),
-          "exp" => time() + 9000,
+          "exp" => time() + $session_exp_time,
           "uid" => $uid
         ];
 
