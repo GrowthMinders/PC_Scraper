@@ -58,17 +58,14 @@ function data_setter(){
   activation = document.getElementById("activation").textContent;
   activation = activation.replace(/^Activation Statues:\s*/i, '').trim(); 
 
-  //STORAGE DETAILS
-  hdd = document.getElementById("drive").textContent;
+  //STORAGE DATA
+  var all_hdds = document.getElementById("drive").textContent;
 
-  var drive1 = hdd.match(/T-FORCE[^\r\n]+/i);
-  var drive2 = hdd.match(/Storage 2: MTFDKBA[^\r\n]+/i);
+  var device1 = all_hdds.match(/Storage 1:\s*(.*?)(?=\s*Storage 2:|$)/i);
+  var device2 = all_hdds.match(/Storage 2:\s*([^\r\n]+)/i);
 
-  storage2 = drive2[0];
-  storage2 = storage2.replace(/^Storage 2:\s*/i, '').trim(); 
-
-  storage1 = hdd.replace(drive2[0], '').replace(/[\r\n]+/g, ' ').trim();
-  storage1 = storage1.replace(/^Storage 1:\s*/i, '').trim(); 
+  storage1 = device1[1].trim();
+  storage2 = device2[1].trim();
   
 
   //GPU DATA

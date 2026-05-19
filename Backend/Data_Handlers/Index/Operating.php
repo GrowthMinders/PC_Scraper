@@ -37,24 +37,32 @@ try {
         }
     }
 
-    //Getting License State And Genuinity
-    $licenseData = $object_wmi->ExecQuery("SELECT LicenseStatus, Description FROM SoftwareLicensingProduct WHERE PartialProductKey IS NOT NULL");
-    $activationStatus = "Unlicensed";
-    $licenseType = "Unknown";
+//Getting OS Activation Details
+$licenseProvider = "Unknown";
+$activationStatus = "Unlicensed";
 
-    foreach ($licenseData as $license) {
-        // LicenseStatus 1 = Licensed (Activated)
-        if ($license->LicenseStatus == 1) {
-            $activationStatus = "Activated/Genuine";
-            $licenseType = (string)$license->Description;
-            
-            // Heuristic for cracked versions: KMS activators often show "VOLUME_KMSCLIENT" 
-            // on home/personal machines
-            if (stripos($licenseType, "KMS") !== false) {
-                $activationStatus = "KMS Activated (Possible Volume/Non-Retail)";
-            }
+$command = "cscript //NoLogo C:\\Windows\\System32\\slmgr.vbs /dli";
+$output = @shell_exec($command);
+
+if ($output) {
+    if (stripos($output, "License Status: Licensed") !== false) {
+        $activationStatus = "Activated/Genuine";
+        
+        // If it is activated via a KMS bypass/crack, override the status
+        if (stripos($output, "VOLUME_KMSCLIENT") !== false) {
+            $activationStatus = "KMS Activated (Possible Volume/Non-Retail)";
         }
     }
+
+    if (stripos($output, "RETAIL channel") !== false) {
+        $licenseProvider = "Retail Channel";
+    } elseif (stripos($output, "OEM") !== false) {
+        $licenseProvider = "OEM Channel (Factory Built)";
+    } elseif (stripos($output, "VOLUME_KMSCLIENT") !== false) {
+        $licenseProvider = "Volume KMS Client";
+    }
+}
+
 
     //Getting Device Name, OS Version, Built Version, OS Version 
     $os = $object_wmi->ExecQuery("SELECT * FROM Win32_OperatingSystem");
@@ -69,7 +77,7 @@ try {
             "build_version"   => (string)$OS->Version,
             "last_update"     => $actualUpdateDate,
             "activation"      => $activationStatus,
-            "license_info"    => $licenseType
+            "license_info"    => $licenseProvider
         ];
         $i++;
     }

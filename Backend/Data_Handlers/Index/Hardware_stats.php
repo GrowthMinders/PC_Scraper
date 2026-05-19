@@ -76,38 +76,49 @@ try {
 
 
 
-    // Getting Storage Media Detailsk
-    $smartctl = '"C:\Program Files\smartmontools\bin\smartctl.exe"';
+// Getting Storage Media Detailsk
+$diskinfo_log = 'C:\Program Files\CrystalDiskInfo\DiskInfo.txt';
 
-    $scan_output = shell_exec("$smartctl --scan");
+// Silently trigger the data generation bypassing Apache's Session 0 desktop isolation blocks
+if (!file_exists($diskinfo_log) || (time() - filemtime($diskinfo_log) > 60)) {
+    shell_exec('powershell -WindowStyle Hidden -Command "Start-Process \'C:\Program Files\CrystalDiskInfo\DiskInfo64.exe\' -ArgumentList \'/CopyExit\' -Wait"');
+}
 
-    if ($scan_output) {
-      $lines = explode("\n", trim($scan_output));
+if (file_exists($diskinfo_log)) {
+    $scan_output = file_get_contents($diskinfo_log);
     
-      foreach ($lines as $line) {
-        // Look for the device path (e.g., /dev/pd0)
-        if (preg_match('/\/dev\/(\w+)/', $line, $matches)) {
-            $device_path = $matches[0];
-            
-            // 2. Get info for this specific drive in JSON format (-j)
-            // -i gets info, -j makes it easy for PHP to read
-            $info_json = shell_exec("$smartctl -i -j $device_path");
-            $data = json_decode($info_json, true);
-            
-            if (isset($data['model_name'])) {
-                $model = $data['model_name'];
-                $size_bytes = $data['user_capacity']['bytes'] ?? 0;
-                $size_gb = round($size_bytes / (1024**3), 2);
+    if ($scan_output) {
+        // Split the log file into individual disk sections separated by line dividers
+        $disks = explode("----------------------------------------------------------------------------", $scan_output);
+        
+        foreach ($disks as $disk_data) {
+            // Check for valid disk blocks containing the clean Model data structure line
+            if (preg_match('/Model\s*:\s*([^\n]+)/', $disk_data, $model_match)) {
+                // Fix: Grab index [1] from regex array group to prevent string conversion crash
+                $model = trim($model_match[1]);
                 
-                // Identify Type
-                $family = $data['model_family'] ?? '';
-                $type = (stripos($model, 'NVMe') !== false || stripos($family, 'NVMe') !== false) ? "NVMe SSD" : "Disk";
-
+                // Extract disk capacities safely 
+                $size_gb = 0;
+                if (preg_match('/Disk Size\s*:\s*([0-9\.]+)\s*GB/', $disk_data, $size_match)) {
+                    // Fix: Grab index [1] from regex array group
+                    $size_gb = round((float)$size_match[1], 2);
+                }
+                
+                // Identify Type from the interface line inside this disk section
+                $type = "Disk";
+                if (preg_match('/Interface\s*:\s*([^\n]+)/', $disk_data, $interface_match)) {
+                    // Fix: Grab index [1] from regex array group
+                    if (stripos($interface_match[1], 'NVM Express') !== false || stripos($model, 'NVMe') !== false) {
+                        $type = "NVMe SSD";
+                    }
+                }
+                
                 $storage[] = "$model | $type | $size_gb GB";
             }
         }
-      }
-    } 
+    }
+}
+
 
     if($i > 0){
       echo json_encode([
