@@ -285,7 +285,7 @@ function OTPwhat(){
                                 
                               }
                             };
-                            var data = {tel: tel_no, track: "what", otp: result.value, purpose: instance};
+                            var data = {tel: tel_no, track: "what", otp: result.value, purpose: instance, user: role};
                             var jsonData = JSON.stringify(data);
                             logreq.send(jsonData);
                           

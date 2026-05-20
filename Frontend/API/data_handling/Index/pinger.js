@@ -98,6 +98,8 @@ function ping_network(){
         good++;
       }
 
+
+
       //Setting The Final Network State
       if(good > bad){
         final_result = "Good";
@@ -110,6 +112,9 @@ function ping_network(){
         msg_color = "yellow";
       }
 
+      dyna_recommend();
+
+    if((data.delay != 0) && (data.latency != 0) && (data.jitter != 0)){      
       if(data.role === "stream"){
         document.getElementById("final_out").innerHTML = `Network Quality For Streaming: <strong style="color: ${msg_color};">${final_result}</strong>`;
       }else if(data.role === "dev"){
@@ -119,6 +124,9 @@ function ping_network(){
       }else{
         document.getElementById("final_out").innerHTML = `Network Quality For Normal Use: <strong style="color: ${msg_color};">${final_result}</strong>`;
       }
+    }else{
+      document.getElementById("final_out").innerHTML = `<strong>Internet Connection Lost, Great Things Are Happening Out Explore Now</strong>`;
+    }  
       
 
     }else{

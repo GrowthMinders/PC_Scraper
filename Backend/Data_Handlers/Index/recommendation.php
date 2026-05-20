@@ -75,17 +75,17 @@ try {
             }
 
 
-           $timezone = new DateTimeZone('Asia/Colombo');
+$timezone = new DateTimeZone('Asia/Colombo');
 
-           $dateToTest = (new DateTime('now', $timezone))->setTimestamp($ts)->modify('00:00:00');
+$dateToTest = (new DateTime('now', $timezone))->setTimestamp($ts)->modify('00:00:00');
 
-           $sevenDaysAgo = (new DateTime('7 days ago', $timezone))->modify('00:00:00');
+$sevenDaysAgo = (new DateTime('7 days ago', $timezone))->modify('00:00:00');
 
-           if ($dateToTest == $sevenDaysAgo) {
-              $update_status = "current";
-           }else{
-              $update_status = "non-current"; 
-           }
+if ($dateToTest >= $sevenDaysAgo) {
+    $update_status = "current";
+} else {
+    $update_status = "non-current";
+}
         }
     }
 

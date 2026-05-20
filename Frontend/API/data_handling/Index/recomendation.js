@@ -5,9 +5,6 @@
  var helth_display = document.getElementById("health_score");
  var scan_display = document.getElementById("last_scan");
  var recomend_display = document.getElementById("recomender");
-
- var recomenders = "";
-
  
  function dater(){
    const now = new Date();
@@ -24,27 +21,32 @@
  var stamp = dater();
  var [scan_date, scan_time] = stamp.split("-"); 
  
- var health_scorer = new XMLHttpRequest();
- health_scorer.open("POST", "api/recommender");
- health_scorer.setRequestHeader("Content-Type", "application/json");
+  function dyna_recommend(){
+    var health = 100;
+
+    var html_block = "";
+    var recomenders = "";
+
+    var health_scorer = new XMLHttpRequest();
+    health_scorer.open("POST", "api/recommender");
+    health_scorer.setRequestHeader("Content-Type", "application/json");
+    health_scorer.onload = function () {
+    if(health_scorer.status == 200) {
+     var data = JSON.parse(health_scorer.responseText);
+
+     var instance = data[0];   
     
- health_scorer.onload = function () {
-  if(health_scorer.status == 200) {
-    var data = JSON.parse(health_scorer.responseText);
+     var active = instance.active;
+     var genuine = instance.genuine;
+     var update_status = instance.update_status;
+     var loss = instance.loss;
 
-    var instance = data[0];   
-    
-    var active = instance.active;
-    var genuine = instance.genuine;
-    var update_status = instance.update_status;
-    var loss = instance.loss;
+     //YAML Ruleset Comparison Logic
+     var loss_nubered = parseFloat(loss.match(/[\d.]+/));
 
-    //YAML Ruleset Comparison Logic
-    var loss_nubered = parseFloat(loss.match(/[\d.]+/));
-
-    fetch('rules.yaml')
-     .then(response => response.text())
-     .then(yamlText => {
+     fetch('rules.yaml')
+      .then(response => response.text())
+      .then(yamlText => {
         // Parse YAML array structure
         var config = jsyaml.load(yamlText);
         var totalScore = 0;
@@ -84,15 +86,17 @@
 
         //Display System Health
         helth_display.style.color = `${color_rule}`;
-        helth_display.innerText = `System Health Score: ${health + "%"} (${state})`;
+        helth_display.innerText = `Overall Health Score: ${health + "%"} (${state})`;
 
         //Display Last Scan Date And Time
         scan_display.innerText = `Last Scan: ${scan_date} At ${scan_time}`;
 
         //Display Details In The Recommendation Engine Section
         var splited = recomenders.split(",");
-    
-        var html_block = "";
+
+        //Cleaning Old Data
+        recomend_display.innerHTML = "";
+
         splited.forEach(function(value) {
         if (!value.trim()) return; 
 
@@ -110,7 +114,7 @@
      })
      .catch(err => console.error("Error reading configuration rules file:", err));
     
-  } else {
+   }else{
     Swal.fire({
       title: "Recomendation Engine",
       text: "The Recomendation Engine Is Currently Busy!",
@@ -123,8 +127,13 @@
         Swal.close();
       }
     });
-  }  
- };
- var datacount = {action: ip_pool};
- var jsonDatacount = JSON.stringify(datacount);
- health_scorer.send(jsonDatacount);
+   }  
+  };
+  var datacount = {action: ip_pool};
+  var jsonDatacount = JSON.stringify(datacount);
+  health_scorer.send(jsonDatacount);
+
+  }
+
+  //For The First Time Quick Execution
+  dyna_recommend();

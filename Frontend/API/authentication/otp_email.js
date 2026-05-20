@@ -122,7 +122,7 @@ function OTPmail(){
                                         //JWT Token
                                         var session = JSON.parse(logreq.responseText); 
                                         sessionStorage.setItem("loged", session.token);
-
+ 
                                         //Redirect To Splash Screen
                                         window.location.href = "http://localhost/Scraper/Frontend/HTML/splash.html";
                                       
